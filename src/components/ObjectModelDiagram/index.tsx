@@ -118,6 +118,11 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         addNode={handleAddNode}
         openJson={openJson}
         onOpenJson={onOpenJson}
+        onUpdateJson={onUpdateJson}
+        nodes={_nodes}
+        edges={_edges}
+        setNodes={setNodes}
+        setEdges={setEdges}
       />
       <ReactFlow
         nodes={_nodes}

@@ -27,14 +27,19 @@ const ReactModal = (props: any) => {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      {onClose && <div style={{
-        position: "absolute",
-        right: "10px",
-        top: "10px",
-        cursor: "pointer"
-      }}
-        onClick={onClose}
-      >X</div>}
+      {onClose && (
+        <div
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "10px",
+            cursor: "pointer",
+          }}
+          onClick={onClose}
+        >
+          <i className="fa-sharp fa-solid fa-xmark"></i>
+        </div>
+      )}
       {children}
     </Modal>
   );

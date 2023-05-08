@@ -24,6 +24,7 @@ export default function Home() {
       return JSON.parse(jsonData);
     } catch (error) {
       if (typeof alert === "function") {
+        localStorage.removeItem("document-data");
         alert("Json format error!!!");
       }
       return [];

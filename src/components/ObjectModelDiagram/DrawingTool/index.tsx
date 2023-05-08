@@ -1,14 +1,28 @@
 import { nodeTypesMapping } from "@/utils/constants";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 interface DrawingToolProps {
   addNode: any;
   openJson: any;
   onOpenJson: any;
+  onUpdateJson: any;
+  nodes: any;
+  edges: any;
+  setNodes: any;
+  setEdges: any;
 }
 
 const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
-  const { addNode, openJson, onOpenJson } = props;
+  const {
+    addNode,
+    openJson,
+    onOpenJson,
+    onUpdateJson,
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+  } = props;
   const [nodeType, setNodeType] = useState("expandFrame");
 
   const handleAddNode = () => {
@@ -18,6 +32,22 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
   const handleChangeNodeType = (e: any) => {
     setNodeType(e.target.value);
   };
+
+  const handleDeleteSeleted = () => {
+    setEdges((edges || []).filter((_edge: any) => !_edge.selected));
+    setNodes((nodes || []).filter((_node: any) => !_node.selected));
+    onUpdateJson({
+      nodes: (nodes || []).filter((_node: any) => !_node.selected),
+      edges: (edges || []).filter((_edge: any) => !_edge.selected),
+    });
+  };
+
+  const openEditTool = useMemo(
+    () =>
+      nodes.find((_node: any) => _node.selected) ||
+      edges.find((_edge: any) => _edge.selected),
+    [nodes, edges]
+  );
 
   return (
     <div
@@ -57,9 +87,29 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           style={{ marginLeft: "8px", padding: "8px" }}
           onClick={handleAddNode}
         >
-          Add
+          <i
+            className="fa-solid fa-plus"
+            style={{
+              color: "#fff",
+            }}
+          ></i>
         </button>
       </div>
+      {openEditTool && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <i
+            title="delete"
+            className="fa-sharp fa-solid fa-trash fa-xl button"
+            style={{ color: "rgba(225,20,0, 1)" }}
+            onClick={handleDeleteSeleted}
+          ></i>
+        </div>
+      )}
       <div>
         {openJson && (
           <button
@@ -71,7 +121,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
             }}
             onClick={() => onOpenJson && onOpenJson(false)}
           >
-            X
+            <i className="fa-sharp fa-solid fa-xmark"></i>
           </button>
         )}
       </div>

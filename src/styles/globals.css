@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -152,8 +153,19 @@ button:hover {
 
 .button {
   transition-duration: 0.2s;
+  cursor: pointer;
 }
 
 .button:hover {
   transform: scale(1.125);
+}
+
+.selected-node {
+  border: solid 1px steelblue;
+  border-radius: 10px;
+}
+
+.react-flow__node.selected {
+  border: solid 1px steelblue;
+  border-radius: 10px;
 }
