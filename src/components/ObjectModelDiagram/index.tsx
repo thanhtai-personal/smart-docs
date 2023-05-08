@@ -18,7 +18,13 @@ const minimapStyle = {
 };
 
 const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
-  const { nodes = [], edges = [], onUpdateJson = () => {} } = props;
+  const {
+    nodes = [],
+    edges = [],
+    onUpdateJson = () => {},
+    onOpenJson,
+    openJson,
+  } = props;
   const [_nodes, setNodes, onNodesChange] = useNodesState(nodes as Array<any>);
   const [_edges, setEdges, onEdgesChange] = useEdgesState(edges as Array<any>);
   const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -108,7 +114,11 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
 
   return (
     <>
-      <DrawingTool addNode={handleAddNode} />
+      <DrawingTool
+        addNode={handleAddNode}
+        openJson={openJson}
+        onOpenJson={onOpenJson}
+      />
       <ReactFlow
         nodes={_nodes}
         edges={edgesWithUpdatedTypes}
