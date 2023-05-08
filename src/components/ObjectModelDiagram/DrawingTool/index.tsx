@@ -42,6 +42,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           background: "rgba(0,0,0, 0.7)",
           border: "solid 1px rgba(0,0,0, 0.75)",
           borderRadius: "4px",
+          alignItems: "center",
         }}
       >
         <span style={{ color: "#fff" }}>Select node type:&nbsp;</span>
@@ -53,7 +54,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           ))}
         </select>
         <button
-          style={{ color: "steelblue", marginLeft: "8px" }}
+          style={{ marginLeft: "8px", padding: "8px" }}
           onClick={handleAddNode}
         >
           Add

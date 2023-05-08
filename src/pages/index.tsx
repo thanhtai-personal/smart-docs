@@ -16,6 +16,7 @@ export default function Home() {
 
   const handleJsonChange = (event: any) => {
     setJsonData(event.target.value);
+    localStorage.setItem("document-data", event.target.value);
   };
 
   const data = useMemo(() => {
@@ -30,11 +31,13 @@ export default function Home() {
   }, [jsonData]);
 
   useEffect(() => {
-    setJsonData(JSON.stringify(defaultData));
+    const storageData = localStorage.getItem("document-data");
+    setJsonData(storageData || JSON.stringify(defaultData));
   }, []);
 
   const handleUpdateJson = (data: any) => {
     setJsonData(JSON.stringify(data));
+    localStorage.setItem("document-data", JSON.stringify(data));
   };
 
   const handleExportJson = () => {
@@ -48,12 +51,9 @@ export default function Home() {
       "data:text/plain;charset=utf-8," + encodeURIComponent(jsonData)
     );
     element.setAttribute("download", filename);
-
     element.style.display = "none";
     document.body.appendChild(element);
-
     element.click();
-
     document.body.removeChild(element);
   };
 

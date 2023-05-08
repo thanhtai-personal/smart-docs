@@ -14,7 +14,7 @@ const Form = (props: FormProps) => {
     title,
     initialValues = {},
     validate = (values: any) => {
-      return true
+      return true;
     },
     model = {},
     onSubmit,
@@ -103,12 +103,25 @@ const Form = (props: FormProps) => {
                   );
                 })}
               </div>
-              <button
-                type="submit"
-                disabled={isSubmitting}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                  padding: "8px 0",
+                }}
               >
-                Submit
-              </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{
+                    background: "steelblue",
+                    padding: "8px",
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
             </form>
           </>
         )}

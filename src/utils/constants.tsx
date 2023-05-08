@@ -3,6 +3,7 @@ import MediaCardNode from "@/components/ObjectModelDiagram/CustomNode/MediaCardN
 import ExpandFrameNodeCreateModel from "@/components/ObjectModelDiagram/CustomNode/ExpandFrameNode/models/create";
 import MediaCardNodeCreateModel from "@/components/ObjectModelDiagram/CustomNode/MediaCardNode/models/create";
 import { NamedColorspace } from "@textea/json-viewer";
+import InputModel from "@/components/ObjectModelDiagram/DefaultNode/Input/models/create";
 
 export const nodeTypes: any = {
   expandFrame: ExpandFrameNode,
@@ -26,7 +27,6 @@ export const nodeTypesMapping: any = {
         addNodeFuntion({
           id: values.id,
           type: "expandFrame",
-          parentNode: "set-up-environment",
           data: {
             label: values.label,
             content: values.content,
@@ -73,7 +73,7 @@ export const nodeTypesMapping: any = {
             x: 40,
             y: 40,
           },
-          selected: true,
+          selected: false,
           positionAbsolute: {
             x: 40,
             y: 40,
@@ -93,44 +93,7 @@ export const nodeTypesMapping: any = {
       mdContent: "",
     },
     validate: (values: any) => !!values.id,
-    model: {
-      id: {
-        priority: 1,
-        render: ({ handleChange }: any) => {
-          return (
-            <input
-              name="id"
-              placeholder="Enter unique id"
-              onChange={handleChange}
-            />
-          );
-        },
-      },
-      label: {
-        priority: 2,
-        render: ({ handleChange }: any) => {
-          return (
-            <input
-              name="label"
-              onChange={handleChange}
-              placeholder="Enter label"
-            />
-          );
-        },
-      },
-      className: {
-        priority: 3,
-        render: ({ handleChange }: any) => {
-          return (
-            <input
-              name="className"
-              onChange={handleChange}
-              placeholder="Enter className (heading)"
-            />
-          );
-        },
-      },
-    },
+    model: InputModel,
     onSubmit: (values: any, addNodeFuntion: Function) => {
       addNodeFuntion &&
         addNodeFuntion({
@@ -144,7 +107,7 @@ export const nodeTypesMapping: any = {
             x: 40,
             y: 40,
           },
-          selected: true,
+          selected: false,
           positionAbsolute: {
             x: 40,
             y: 40,

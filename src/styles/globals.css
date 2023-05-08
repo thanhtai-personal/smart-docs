@@ -18,12 +18,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 .react-flow {
@@ -110,7 +107,7 @@ body {
 
 
 .expand-frame {
-  border: solid 1px rgb(0,0,0);
+  border: solid 1px rgb(0, 0, 0);
   border-radius: 8px;
   overflow: auto;
 }
@@ -134,8 +131,9 @@ ul li a {
   color: steelblue;
 }
 
-input, textarea {
-  border: solid 1px rgba(0,0,0, 0.125);
+input,
+textarea {
+  border: solid 1px rgba(0, 0, 0, 0.125);
   width: 100%;
   border-radius: 8px;
   padding: 8px;
@@ -143,6 +141,9 @@ input, textarea {
 
 button {
   transition-duration: 0.2s;
+  background: steelblue;
+  border-radius: 4px;
+  color: #fff;
 }
 
 button:hover {
