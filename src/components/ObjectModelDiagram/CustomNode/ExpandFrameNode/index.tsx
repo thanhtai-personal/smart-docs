@@ -19,11 +19,11 @@ function ExpandFrameNode(props: any) {
         <span
           style={{
             marginLeft: "10px",
-            transform: open ? "rotate(180deg)" : "rotate(90deg)",
+            transform: open ? "rotate(90deg)" : "rotate(180deg)",
             transitionDuration: "0.2s",
           }}
         >
-          &#94;
+          <i className="fa-solid fa-caret-right"></i>
         </span>
       </div>
       <div

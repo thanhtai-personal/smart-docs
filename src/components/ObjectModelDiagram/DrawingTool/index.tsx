@@ -100,6 +100,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           style={{
             display: "flex",
             alignItems: "center",
+            minWidth: 300,
           }}
         >
           <i
