@@ -35,11 +35,11 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
 
   const handleDeleteSeleted = () => {
     const selectedId = (
-      (nodes || []).filter((_node: any) => !_node.selected) ||
-      (edges || []).find((_edge: any) => !_edge.selected)
+      (nodes || []).find((_node: any) => _node.selected) ||
+      (edges || []).find((_edge: any) => _edge.selected)
     ).id;
-    setEdges((edges || []).filter((_edge: any) => !_edge.selected && _edge.source !== selectedId && _edge.target !== selectedId));
-    setNodes((nodes || []).filter((_node: any) => !_node.selected).map((_node: any) => {
+    const newEdges = (edges || []).filter((_edge: any) => !_edge.selected && _edge.source !== selectedId && _edge.target !== selectedId)
+    const newNodes = (nodes || []).filter((_node: any) => !_node.selected).map((_node: any) => {
       if (_node.parentNode === selectedId) {
         return {
           ..._node,
@@ -48,11 +48,13 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
       } else {
         return _node
       }
-    }));
+    })
+    setEdges(newEdges);
+    setNodes(newNodes);
 
     onUpdateJson({
-      nodes: (nodes || []).filter((_node: any) => !_node.selected),
-      edges: (edges || []).filter((_edge: any) => !_edge.selected),
+      nodes: newNodes,
+      edges: newEdges,
     });
   };
 
