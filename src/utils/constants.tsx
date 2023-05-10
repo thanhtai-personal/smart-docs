@@ -22,13 +22,19 @@ export const nodeTypesMapping: any = {
   default: {
     name: "Default",
     createTitle: "Default node",
+    model: InputModel,
+    validate: (values: any) => !!values.id,
     initialValues: {
       id: "",
       label: "",
       mdContent: "",
+      targetPosition: POSITION.TOP,
+      sourcePosition: POSITION.BOTTOM,
+      parentNode: "",
+      selectable: true,
+      zIndex: 0,
+      style: "",
     },
-    validate: (values: any) => !!values.id,
-    model: InputModel,
     onSubmit: (values: any, addNodeFuntion: Function) => {
       addNodeFuntion &&
         addNodeFuntion({
@@ -38,6 +44,12 @@ export const nodeTypesMapping: any = {
             label: values.label,
           },
           className: values.className,
+          parentNode: values.parentNode,
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
           position: {
             x: 40,
             y: 40,
@@ -65,6 +77,8 @@ export const nodeTypesMapping: any = {
         }))
       }
     },
+    model: InputModel,
+    validate: (values: any) => !!values.id,
     initialValues: {
       id: "",
       label: "",
@@ -76,8 +90,6 @@ export const nodeTypesMapping: any = {
       zIndex: 0,
       style: "",
     },
-    validate: (values: any) => !!values.id,
-    model: InputModel,
     onSubmit: (values: any, addNodeFuntion: Function) => {
       addNodeFuntion &&
         addNodeFuntion({
@@ -111,13 +123,19 @@ export const nodeTypesMapping: any = {
   outPut: {
     name: "Output",
     createTitle: "Output node",
+    model: InputModel,
+    validate: (values: any) => !!values.id,
     initialValues: {
       id: "",
       label: "",
       mdContent: "",
+      targetPosition: POSITION.TOP,
+      sourcePosition: POSITION.BOTTOM,
+      parentNode: "",
+      selectable: true,
+      zIndex: 0,
+      style: "",
     },
-    validate: (values: any) => !!values.id,
-    model: InputModel,
     onSubmit: (values: any, addNodeFuntion: Function) => {
       addNodeFuntion &&
         addNodeFuntion({
@@ -127,6 +145,12 @@ export const nodeTypesMapping: any = {
             label: values.label,
           },
           className: values.className,
+          parentNode: values.parentNode,
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
           position: {
             x: 40,
             y: 40,
@@ -150,6 +174,12 @@ export const nodeTypesMapping: any = {
       id: "",
       className: "",
       content: "",
+      targetPosition: POSITION.TOP,
+      sourcePosition: POSITION.BOTTOM,
+      parentNode: "",
+      selectable: true,
+      zIndex: 0,
+      style: "",
     },
     validate: (values: any) => !!values.id,
     model: ExpandFrameNodeCreateModel,
@@ -162,6 +192,11 @@ export const nodeTypesMapping: any = {
             label: values.label,
             content: values.content,
           },
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
           position: {
             x: 40,
             y: 40,
@@ -185,6 +220,12 @@ export const nodeTypesMapping: any = {
       id: "",
       label: "",
       mdContent: "",
+      targetPosition: POSITION.TOP,
+      sourcePosition: POSITION.BOTTOM,
+      parentNode: "",
+      selectable: true,
+      zIndex: 0,
+      style: "",
     },
     validate: (values: any) => !!values.id,
     model: MediaCardNodeCreateModel,
@@ -200,6 +241,11 @@ export const nodeTypesMapping: any = {
             videos: [],
             mdContent: values.mdContent,
           },
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
           position: {
             x: 40,
             y: 40,
