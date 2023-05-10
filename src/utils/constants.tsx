@@ -15,8 +15,8 @@ export const POSITION: any = {
   LEFT: "left",
   RIGHT: "right",
   TOP: "top",
-  BOTTOM: "bottom"
-}
+  BOTTOM: "bottom",
+};
 
 export const nodeTypesMapping: any = {
   default: {
@@ -68,13 +68,261 @@ export const nodeTypesMapping: any = {
     name: "Input",
     createTitle: "Input node",
     getOptions: {
-      parentNode: ({ nodes }: any) => () => {
-        return nodes.map((node: any) => ({
-          key: node.id,
-          value: node.id,
-          label: node.data?.name || node.data?.label || node.id
-        }))
-      }
+      parentNode:
+        ({ nodes }: any) =>
+        () => {
+          return nodes.map((node: any) => ({
+            key: node.id,
+            value: node.id,
+            label: node.data?.name || node.data?.label || node.id,
+          }));
+        },
+    },
+    model: InputModel,
+    validate: (values: any) => !!values.id,
+    getInitialValues: (nodeData: any) => ({
+      id: nodeData.id || "",
+      label: nodeData.label || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    }),
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "input",
+          data: {
+            label: values.label,
+          },
+          className: values.className,
+          parentNode: values.parentNode,
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
+  outPut: {
+    name: "Output",
+    createTitle: "Output node",
+    model: InputModel,
+    validate: (values: any) => !!values.id,
+    getInitialValues: (nodeData: any) => ({
+      id: nodeData.id || "",
+      label: nodeData.label || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    }),
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "output",
+          data: {
+            label: values.label,
+          },
+          className: values.className,
+          parentNode: values.parentNode,
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
+  expandFrame: {
+    component: ExpandFrameNode,
+    name: "Expandable",
+    createTitle: "Create expandable node",
+    getInitialValues: (nodeData: any) => ({
+      id: nodeData.id || "",
+      className: nodeData.className || "",
+      content: nodeData.data?.content || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    }),
+    validate: (values: any) => !!values.id,
+    model: ExpandFrameNodeCreateModel,
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "expandFrame",
+          data: {
+            label: values.label,
+            content: values.content,
+          },
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: true,
+          width: 267,
+          height: 159,
+        });
+    },
+  },
+  mediaCard: {
+    component: MediaCardNode,
+    name: "Media card",
+    createTitle: "Media card node",
+    getInitialValues: (nodeData: any) => ({
+      id: nodeData.id || "",
+      label: nodeData.label || "",
+      mdContent: nodeData.data?.mdContent || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    }),
+    validate: (values: any) => !!values.id,
+    model: MediaCardNodeCreateModel,
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "mediaCard",
+          data: {
+            label: values.label,
+            content: "",
+            images: [],
+            videos: [],
+            mdContent: values.mdContent,
+          },
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
+};
+
+export const edgeTypes: any = {};
+
+export const edgeTypesMapping: any = {
+  default: {
+    name: "Default",
+    createTitle: "Default node",
+    model: InputModel,
+    validate: (values: any) => !!values.id,
+    getInitialValues: (nodeData: any) => ({
+      id: nodeData.id || "",
+      label: nodeData.label || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    }),
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "default",
+          data: {
+            label: values.label,
+          },
+          className: values.className,
+          parentNode: values.parentNode,
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
+  input: {
+    name: "Input",
+    createTitle: "Input node",
+    getOptions: {
+      parentNode:
+        ({ nodes }: any) =>
+        () => {
+          return nodes.map((node: any) => ({
+            key: node.id,
+            value: node.id,
+            label: node.data?.name || node.data?.label || node.id,
+          }));
+        },
     },
     model: InputModel,
     validate: (values: any) => !!values.id,
@@ -263,8 +511,8 @@ export const nodeTypesMapping: any = {
 export const positionOptions = Object.keys(POSITION).map((key) => ({
   key: key,
   value: POSITION[key],
-  name: uppercaseFirstLetter(POSITION[key])
-}))
+  name: uppercaseFirstLetter(POSITION[key]),
+}));
 
 export const jsonViewerTheme: NamedColorspace = {
   scheme: "default",

@@ -8,7 +8,12 @@ import ReactFlow, {
   useEdgesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { nodeTypes, nodeTypesMapping } from "@/utils/constants";
+import {
+  nodeTypes,
+  nodeTypesMapping,
+  edgeTypes,
+  edgeTypesMapping,
+} from "@/utils/constants";
 import DrawingTool from "./DrawingTool";
 import ReactModal from "../Modal";
 import Form from "../Form";
@@ -29,6 +34,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   const [_edges, setEdges, onEdgesChange] = useEdgesState(edges as Array<any>);
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [nodeType, setNodeType] = useState("expandFrame");
+  const [edgeType, setEdgeType] = useState("");
   const [initialValues, setInitialValues] = useState({});
 
   const handleAddNode = (nodeType: string) => {
@@ -41,12 +47,24 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     setNodeType(node.type);
     setOpenCreateModal(true);
     setInitialValues(nodeTypesMapping[nodeType].getInitialValues(node));
-  }
+  };
+
+  const handleAddEdge = (edgeType: string) => {
+    setOpenCreateModal(true);
+    setEdgeType(edgeType);
+    setInitialValues(edgeTypesMapping[edgeType].getInitialValues({}));
+  };
+
+  const handleEditEdge = (edge: any) => {
+    setEdgeType(edge.type);
+    setOpenCreateModal(true);
+    setInitialValues(edgeTypesMapping[edgeType].getInitialValues(edge));
+  };
 
   const handleCloseModal = () => {
     setOpenCreateModal(false);
     setInitialValues({});
-  }
+  };
 
   const onConnect = useCallback(
     (params: any) => setEdges((eds) => addEdge(params, eds)),
@@ -130,6 +148,8 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       <DrawingTool
         addNode={handleAddNode}
         editNode={handleEditNode}
+        addEdge={handleAddEdge}
+        editEdge={handleEditEdge}
         openJson={openJson}
         onOpenJson={onOpenJson}
         onUpdateJson={onUpdateJson}
@@ -148,15 +168,13 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         fitView
         attributionPosition="top-right"
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
       >
         <MiniMap style={minimapStyle} zoomable pannable />
         <Controls />
         <Background color="#000" gap={16} />
       </ReactFlow>
-      <ReactModal
-        isOpen={openCreateModal}
-        onClose={handleCloseModal}
-      >
+      <ReactModal isOpen={openCreateModal} onClose={handleCloseModal}>
         <Form
           title={nodeTypesMapping[nodeType].createTitle}
           initialValues={initialValues}
