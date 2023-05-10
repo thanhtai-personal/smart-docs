@@ -4,13 +4,144 @@ import ExpandFrameNodeCreateModel from "@/components/ObjectModelDiagram/CustomNo
 import MediaCardNodeCreateModel from "@/components/ObjectModelDiagram/CustomNode/MediaCardNode/models/create";
 import { NamedColorspace } from "@textea/json-viewer";
 import InputModel from "@/components/ObjectModelDiagram/DefaultNode/Input/models/create";
+import { uppercaseFirstLetter } from "./helper";
 
 export const nodeTypes: any = {
   expandFrame: ExpandFrameNode,
   mediaCard: MediaCardNode,
 };
 
+export const POSITION: any = {
+  LEFT: "left",
+  RIGHT: "right",
+  TOP: "top",
+  BOTTOM: "bottom"
+}
+
 export const nodeTypesMapping: any = {
+  default: {
+    name: "Default",
+    createTitle: "Default node",
+    initialValues: {
+      id: "",
+      label: "",
+      mdContent: "",
+    },
+    validate: (values: any) => !!values.id,
+    model: InputModel,
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "default",
+          data: {
+            label: values.label,
+          },
+          className: values.className,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
+  input: {
+    name: "Input",
+    createTitle: "Input node",
+    getOptions: {
+      parentNode: ({ nodes }: any) => () => {
+        return nodes.map((node: any) => ({
+          key: node.id,
+          value: node.id,
+          label: node.data?.name || node.data?.label || node.id
+        }))
+      }
+    },
+    initialValues: {
+      id: "",
+      label: "",
+      mdContent: "",
+      targetPosition: POSITION.TOP,
+      sourcePosition: POSITION.BOTTOM,
+      parentNode: "",
+      selectable: true,
+      zIndex: 0,
+      style: "",
+    },
+    validate: (values: any) => !!values.id,
+    model: InputModel,
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "input",
+          data: {
+            label: values.label,
+          },
+          className: values.className,
+          parentNode: values.parentNode,
+          targetPosition: values.targetPosition,
+          sourcePosition: values.sourcePosition,
+          selectable: values.selectable,
+          zIndex: values.zIndex,
+          style: values.style,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
+  outPut: {
+    name: "Output",
+    createTitle: "Output node",
+    initialValues: {
+      id: "",
+      label: "",
+      mdContent: "",
+    },
+    validate: (values: any) => !!values.id,
+    model: InputModel,
+    onSubmit: (values: any, addNodeFuntion: Function) => {
+      addNodeFuntion &&
+        addNodeFuntion({
+          id: values.id,
+          type: "output",
+          data: {
+            label: values.label,
+          },
+          className: values.className,
+          position: {
+            x: 40,
+            y: 40,
+          },
+          selected: false,
+          positionAbsolute: {
+            x: 40,
+            y: 40,
+          },
+          dragging: false,
+          width: 350,
+          height: 350,
+        });
+    },
+  },
   expandFrame: {
     component: ExpandFrameNode,
     name: "Expandable",
@@ -84,45 +215,17 @@ export const nodeTypesMapping: any = {
         });
     },
   },
-  input: {
-    name: "Input",
-    createTitle: "Input node",
-    initialValues: {
-      id: "",
-      label: "",
-      mdContent: "",
-    },
-    validate: (values: any) => !!values.id,
-    model: InputModel,
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "input",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
 };
 
+export const positionOptions = Object.keys(POSITION).map((key) => ({
+  key: key,
+  value: POSITION[key],
+  name: uppercaseFirstLetter(POSITION[key])
+}))
+
 export const jsonViewerTheme: NamedColorspace = {
-  scheme: "Ocean",
-  author: "Chris Kempson (http://chriskempson.com)",
+  scheme: "default",
+  author: "TTTran",
   base00: "#2b303b",
   base01: "#343d46",
   base02: "#4f5b66",

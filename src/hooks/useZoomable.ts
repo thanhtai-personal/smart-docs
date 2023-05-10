@@ -11,7 +11,7 @@ const useZoomable = () => {
   useEffect(() => {
     window.addEventListener("wheel", handleWheel);
     return () => {
-        window.addEventListener("wheel", handleWheel);
+        window.removeEventListener("wheel", handleWheel);
     }
   }, [])
 

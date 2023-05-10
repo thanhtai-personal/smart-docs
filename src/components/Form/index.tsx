@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Formik } from "formik";
 
 interface FormProps {
@@ -7,6 +7,8 @@ interface FormProps {
   validate: any;
   model: any;
   onSubmit: any;
+  getOptions?: any;
+  dataSelected?: any;
 }
 
 const Form = (props: FormProps) => {
@@ -18,7 +20,18 @@ const Form = (props: FormProps) => {
     },
     model = {},
     onSubmit,
+    getOptions = {},
+    dataSelected,
   } = props;
+
+  const passedDataGetOptions = useMemo(() => {
+    return Object.keys(getOptions).reduce((prev: any, current: string) => {
+      return {
+        ...prev,
+        [current]: getOptions[current](dataSelected)
+      };
+    }, {});
+  }, [getOptions]);
 
   const fields = useMemo(
     () =>
@@ -70,61 +83,65 @@ const Form = (props: FormProps) => {
           handleSubmit,
           isSubmitting,
           validateForm,
-        }) => (
-          <>
-            <form onSubmit={handleSubmit}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginTop: "16px",
-                }}
-              >
-                {fields.map((item) => {
-                  return (
-                    <div
-                      key={`item-${item.priority}`}
-                      style={{
-                        marginTop: "8px",
-                      }}
-                    >
-                      {item.render({
-                        item,
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        isSubmitting,
-                        validateForm,
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  width: "100%",
-                  padding: "8px 0",
-                }}
-              >
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
+        }) => {
+          
+          return (
+            <>
+              <form onSubmit={handleSubmit}>
+                <div
                   style={{
-                    background: "steelblue",
-                    padding: "8px",
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "16px",
                   }}
                 >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </>
-        )}
+                  {fields.map((item) => {
+                    return (
+                      <div
+                        key={`item-${item.priority}`}
+                        style={{
+                          marginTop: "8px",
+                        }}
+                      >
+                        {item.render({
+                          item,
+                          values,
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          handleSubmit,
+                          isSubmitting,
+                          validateForm,
+                          getOptions: passedDataGetOptions,
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    width: "100%",
+                    padding: "8px 0",
+                  }}
+                >
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    style={{
+                      background: "steelblue",
+                      padding: "8px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </>
+          );
+        }}
       </Formik>
     </div>
   );

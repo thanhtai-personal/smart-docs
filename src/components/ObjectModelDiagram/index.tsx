@@ -149,6 +149,8 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
           validate={nodeTypesMapping[nodeType].validate}
           model={nodeTypesMapping[nodeType].model}
           onSubmit={handleCreateFormSubmit}
+          getOptions={nodeTypesMapping[nodeType].getOptions}
+          dataSelected={{ nodes: _nodes, edges: _edges }}
         />
       </ReactModal>
     </>
