@@ -4,6 +4,8 @@ import React, { useMemo, useState } from "react";
 interface DrawingToolProps {
   addNode: any;
   editNode: any;
+  addEdge: any;
+  editEdge: any;
   openJson: any;
   onOpenJson: any;
   onUpdateJson: any;
@@ -17,6 +19,8 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
   const {
     addNode,
     editNode,
+    addEdge,
+    editEdge,
     openJson,
     onOpenJson,
     onUpdateJson,
@@ -26,17 +30,25 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     setEdges,
   } = props;
   const [nodeType, setNodeType] = useState("expandFrame");
+  // const [edgeType, setEdgeType] = useState("");
 
   const handleAddNode = () => {
     addNode && addNode(nodeType);
   };
 
+  // const handleAddEdge = () => {
+  //   addEdge && addEdge(edgeType);
+  // };
+
   const handleOpenEdit = () => {
     const selectedNode = (
-      (nodes || []).find((_node: any) => _node.selected) ||
+      (nodes || []).find((_node: any) => _node.selected)
+    );
+    const selectedEdge = (
       (edges || []).find((_edge: any) => _edge.selected)
     );
-    editNode && editNode(selectedNode);
+    selectedNode && editNode && editNode(selectedNode);
+    // selectedEdge && editEdge && editEdge(selectedEdge);
   }
 
   const handleChangeNodeType = (e: any) => {
