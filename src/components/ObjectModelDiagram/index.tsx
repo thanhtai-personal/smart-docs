@@ -6,6 +6,7 @@ import ReactFlow, {
   Background,
   useNodesState,
   useEdgesState,
+  MarkerType,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import {
@@ -17,6 +18,8 @@ import {
 import DrawingTool from "./DrawingTool";
 import ReactModal from "../Modal";
 import Form from "../Form";
+import { NODE_TYPE } from "@/utils/constants";
+import { EDGE_TYPE } from "@/utils/constants";
 
 const minimapStyle = {
   height: 120,
@@ -32,38 +35,49 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   } = props;
   const [_nodes, setNodes, onNodesChange] = useNodesState(nodes as Array<any>);
   const [_edges, setEdges, onEdgesChange] = useEdgesState(edges as Array<any>);
-  const [openCreateModal, setOpenCreateModal] = useState(false);
-  const [nodeType, setNodeType] = useState("expandFrame");
-  const [edgeType, setEdgeType] = useState("");
-  const [initialValues, setInitialValues] = useState({});
+  const [openNodeModal, setOpenNodeModal] = useState(false);
+  const [openEdgeModal, setOpenEdgeModal] = useState(false);
+  const [nodeType, setNodeType] = useState(NODE_TYPE.EXPAND_FRAME as string);
+  const [edgeType, setEdgeType] = useState(EDGE_TYPE.DEFAULT as string);
+  const [initialNodeValues, setInitialNodeValues] = useState({});
+  const [initialEdgeValues, setInitialEdgeValues] = useState({});
 
   const handleAddNode = (nodeType: string) => {
-    setOpenCreateModal(true);
+    setOpenEdgeModal(false);
+    setOpenNodeModal(true);
     setNodeType(nodeType);
-    setInitialValues(nodeTypesMapping[nodeType].getInitialValues({}));
+    setInitialNodeValues(nodeTypesMapping[nodeType].getInitialValues({}));
   };
 
   const handleEditNode = (node: any) => {
+    setOpenEdgeModal(false);
+    setOpenNodeModal(true);
     setNodeType(node.type);
-    setOpenCreateModal(true);
-    setInitialValues(nodeTypesMapping[nodeType].getInitialValues(node));
+    setInitialNodeValues(nodeTypesMapping[nodeType].getInitialValues(node));
   };
 
   const handleAddEdge = (edgeType: string) => {
-    setOpenCreateModal(true);
+    setOpenNodeModal(false);
+    setOpenEdgeModal(true);
     setEdgeType(edgeType);
-    setInitialValues(edgeTypesMapping[edgeType].getInitialValues({}));
+    setInitialEdgeValues(edgeTypesMapping[edgeType].getInitialValues({}));
   };
 
   const handleEditEdge = (edge: any) => {
+    setOpenNodeModal(false);
+    setOpenEdgeModal(true);
     setEdgeType(edge.type);
-    setOpenCreateModal(true);
-    setInitialValues(edgeTypesMapping[edgeType].getInitialValues(edge));
+    setInitialEdgeValues(edgeTypesMapping[edgeType].getInitialValues(edge));
   };
 
-  const handleCloseModal = () => {
-    setOpenCreateModal(false);
-    setInitialValues({});
+  const handleCloseNodeModal = () => {
+    setOpenNodeModal(false);
+    setInitialNodeValues({});
+  };
+
+  const handleCloseEdgeModal = () => {
+    setOpenEdgeModal(false);
+    setInitialEdgeValues({});
   };
 
   const onConnect = useCallback(
@@ -139,7 +153,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         nodes: [..._nodes, nodeData],
         edges: _edges,
       });
-      setOpenCreateModal(false);
+      setOpenNodeModal(false);
     });
   };
 
@@ -174,15 +188,57 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         <Controls />
         <Background color="#000" gap={16} />
       </ReactFlow>
-      <ReactModal isOpen={openCreateModal} onClose={handleCloseModal}>
+      <ReactModal isOpen={openNodeModal} onClose={handleCloseNodeModal}>
         <Form
           title={nodeTypesMapping[nodeType].createTitle}
-          initialValues={initialValues}
+          initialValues={initialNodeValues}
           validate={nodeTypesMapping[nodeType].validate}
           model={nodeTypesMapping[nodeType].model}
           onSubmit={handleCreateFormSubmit}
           getOptions={nodeTypesMapping[nodeType].getOptions}
-          dataSelected={{ nodes: _nodes, edges: _edges }}
+          dataSelected={{
+            nodes: _nodes,
+            edges: _edges,
+            supportedNodeClassname: [
+              {
+                key: "heading",
+                value: "heading",
+                name: "heading",
+              },
+            ],
+          }}
+        />
+      </ReactModal>
+      <ReactModal isOpen={openEdgeModal} onClose={handleCloseEdgeModal}>
+        <Form
+          title={edgeTypesMapping[edgeType].createTitle}
+          initialValues={initialEdgeValues}
+          validate={edgeTypesMapping[edgeType].validate}
+          model={edgeTypesMapping[edgeType].model}
+          onSubmit={handleCreateFormSubmit}
+          getOptions={edgeTypesMapping[edgeType].getOptions}
+          dataSelected={{
+            nodes: _nodes,
+            edges: _edges,
+            supportedEdgeClassname: [],
+            markerTypes: [
+              {
+                key: "none",
+                value: "",
+                name: "None",
+              },
+              {
+                key: MarkerType.Arrow,
+                value: MarkerType.Arrow,
+                name: MarkerType.Arrow,
+              },
+              {
+                key: MarkerType.ArrowClosed,
+                value: MarkerType.ArrowClosed,
+                name: MarkerType.ArrowClosed,
+              },
+            ],
+          }}
         />
       </ReactModal>
     </>

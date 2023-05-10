@@ -4,13 +4,35 @@ import ExpandFrameNodeCreateModel from "@/components/ObjectModelDiagram/CustomNo
 import MediaCardNodeCreateModel from "@/components/ObjectModelDiagram/CustomNode/MediaCardNode/models/create";
 import { NamedColorspace } from "@textea/json-viewer";
 import InputModel from "@/components/ObjectModelDiagram/DefaultNode/Input/models/create";
-import { uppercaseFirstLetter } from "./helper";
+import OutputModel from "@/components/ObjectModelDiagram/DefaultNode/Output/models/create";
+import DefaultModel from "@/components/ObjectModelDiagram/DefaultNode/Default/models/create";
+import DefaultEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/Default/models/create";
+import SmoothStepEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/SmoothStep/models/create";
+import StepEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/StepEdge/models/create";
+import StraightEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/StraightEdge/models/create";
+import {
+  makeEdgeMappingItem,
+  makeNodeTypeMappingItem,
+  uppercaseFirstLetter,
+} from "./helper";
 
-export const nodeTypes: any = {
-  expandFrame: ExpandFrameNode,
-  mediaCard: MediaCardNode,
-};
+//enum
+export enum NODE_TYPE {
+  DEFAULT = "default",
+  INPUT = "input",
+  OUTPUT = "output",
+  EXPAND_FRAME = "expandFrame",
+  MEDIA_CARD = "mediaCard",
+}
 
+export enum EDGE_TYPE {
+  DEFAULT = "default",
+  STEP = "step",
+  SMOOTHSTEP = "smoothstep",
+  STRAIGHT = "straight",
+}
+
+//end enum
 export const POSITION: any = {
   LEFT: "left",
   RIGHT: "right",
@@ -18,153 +40,32 @@ export const POSITION: any = {
   BOTTOM: "bottom",
 };
 
+export const nodeTypes: any = {
+  expandFrame: ExpandFrameNode,
+  mediaCard: MediaCardNode,
+};
+
+export const edgeTypes: any = {};
+
 export const nodeTypesMapping: any = {
-  default: {
+  default: makeNodeTypeMappingItem({
     name: "Default",
     createTitle: "Default node",
-    model: InputModel,
-    validate: (values: any) => !!values.id,
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "default",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          parentNode: values.parentNode,
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
-  input: {
+    model: DefaultModel,
+    type: NODE_TYPE.DEFAULT,
+  }),
+  input: makeNodeTypeMappingItem({
     name: "Input",
     createTitle: "Input node",
-    getOptions: {
-      parentNode:
-        ({ nodes }: any) =>
-        () => {
-          return nodes.map((node: any) => ({
-            key: node.id,
-            value: node.id,
-            label: node.data?.name || node.data?.label || node.id,
-          }));
-        },
-    },
     model: InputModel,
-    validate: (values: any) => !!values.id,
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "input",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          parentNode: values.parentNode,
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
-  outPut: {
+    type: NODE_TYPE.INPUT,
+  }),
+  outPut: makeNodeTypeMappingItem({
     name: "Output",
     createTitle: "Output node",
-    model: InputModel,
-    validate: (values: any) => !!values.id,
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "output",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          parentNode: values.parentNode,
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
+    model: OutputModel,
+    type: NODE_TYPE.OUTPUT,
+  }),
   expandFrame: {
     component: ExpandFrameNode,
     name: "Expandable",
@@ -262,250 +163,31 @@ export const nodeTypesMapping: any = {
   },
 };
 
-export const edgeTypes: any = {};
-
 export const edgeTypesMapping: any = {
-  default: {
+  default: makeEdgeMappingItem({
     name: "Default",
-    createTitle: "Default node",
-    model: InputModel,
-    validate: (values: any) => !!values.id,
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "default",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          parentNode: values.parentNode,
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
-  input: {
-    name: "Input",
-    createTitle: "Input node",
-    getOptions: {
-      parentNode:
-        ({ nodes }: any) =>
-        () => {
-          return nodes.map((node: any) => ({
-            key: node.id,
-            value: node.id,
-            label: node.data?.name || node.data?.label || node.id,
-          }));
-        },
-    },
-    model: InputModel,
-    validate: (values: any) => !!values.id,
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "input",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          parentNode: values.parentNode,
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
-  outPut: {
-    name: "Output",
-    createTitle: "Output node",
-    model: InputModel,
-    validate: (values: any) => !!values.id,
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "output",
-          data: {
-            label: values.label,
-          },
-          className: values.className,
-          parentNode: values.parentNode,
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
-  expandFrame: {
-    component: ExpandFrameNode,
-    name: "Expandable",
-    createTitle: "Create expandable node",
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      className: nodeData.className || "",
-      content: nodeData.data?.content || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    validate: (values: any) => !!values.id,
-    model: ExpandFrameNodeCreateModel,
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "expandFrame",
-          data: {
-            label: values.label,
-            content: values.content,
-          },
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: true,
-          width: 267,
-          height: 159,
-        });
-    },
-  },
-  mediaCard: {
-    component: MediaCardNode,
-    name: "Media card",
-    createTitle: "Media card node",
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      mdContent: nodeData.data?.mdContent || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
-    validate: (values: any) => !!values.id,
-    model: MediaCardNodeCreateModel,
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "mediaCard",
-          data: {
-            label: values.label,
-            content: "",
-            images: [],
-            videos: [],
-            mdContent: values.mdContent,
-          },
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
-  },
+    createTitle: "Default edge",
+    model: DefaultEdgeModel,
+    edgeType: EDGE_TYPE.DEFAULT,
+  }),
+  smoothStep: makeEdgeMappingItem({
+    name: "Smooth step",
+    createTitle: "Smooth step Edge",
+    model: SmoothStepEdgeModel,
+    edgeType: EDGE_TYPE.SMOOTHSTEP,
+  }),
+  step: makeEdgeMappingItem({
+    name: "Step",
+    createTitle: "Step Edge",
+    model: StepEdgeModel,
+    edgeType: EDGE_TYPE.STEP,
+  }),
+  straight: makeEdgeMappingItem({
+    name: "Straight",
+    createTitle: "Straight Edge",
+    model: StraightEdgeModel,
+    edgeType: EDGE_TYPE.STRAIGHT,
+  }),
 };
 
 export const positionOptions = Object.keys(POSITION).map((key) => ({
