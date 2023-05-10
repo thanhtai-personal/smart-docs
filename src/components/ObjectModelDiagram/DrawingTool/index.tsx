@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 
 interface DrawingToolProps {
   addNode: any;
+  editNode: any;
   openJson: any;
   onOpenJson: any;
   onUpdateJson: any;
@@ -15,6 +16,7 @@ interface DrawingToolProps {
 const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
   const {
     addNode,
+    editNode,
     openJson,
     onOpenJson,
     onUpdateJson,
@@ -28,6 +30,14 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
   const handleAddNode = () => {
     addNode && addNode(nodeType);
   };
+
+  const handleOpenEdit = () => {
+    const selectedNode = (
+      (nodes || []).find((_node: any) => _node.selected) ||
+      (edges || []).find((_edge: any) => _edge.selected)
+    );
+    editNode && editNode(selectedNode);
+  }
 
   const handleChangeNodeType = (e: any) => {
     setNodeType(e.target.value);
@@ -124,6 +134,12 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
             className="fa-sharp fa-solid fa-trash fa-xl button"
             style={{ color: "rgba(225,20,0, 1)" }}
             onClick={handleDeleteSeleted}
+          ></i>
+          <i
+            title="edit"
+            className="fa-solid fa-pen-to-square fa-xl button"
+            style={{ color: "rgba(6,105,234, 1)", marginLeft: "16px" }}
+            onClick={handleOpenEdit}
           ></i>
         </div>
       )}

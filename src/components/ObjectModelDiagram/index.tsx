@@ -29,11 +29,24 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   const [_edges, setEdges, onEdgesChange] = useEdgesState(edges as Array<any>);
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [nodeType, setNodeType] = useState("expandFrame");
+  const [initialValues, setInitialValues] = useState({});
 
   const handleAddNode = (nodeType: string) => {
     setOpenCreateModal(true);
     setNodeType(nodeType);
+    setInitialValues(nodeTypesMapping[nodeType].getInitialValues({}));
   };
+
+  const handleEditNode = (node: any) => {
+    setNodeType(node.type);
+    setOpenCreateModal(true);
+    setInitialValues(nodeTypesMapping[nodeType].getInitialValues(node));
+  }
+
+  const handleCloseModal = () => {
+    setOpenCreateModal(false);
+    setInitialValues({});
+  }
 
   const onConnect = useCallback(
     (params: any) => setEdges((eds) => addEdge(params, eds)),
@@ -116,6 +129,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     <>
       <DrawingTool
         addNode={handleAddNode}
+        editNode={handleEditNode}
         openJson={openJson}
         onOpenJson={onOpenJson}
         onUpdateJson={onUpdateJson}
@@ -141,11 +155,11 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       </ReactFlow>
       <ReactModal
         isOpen={openCreateModal}
-        onClose={() => setOpenCreateModal(false)}
+        onClose={handleCloseModal}
       >
         <Form
           title={nodeTypesMapping[nodeType].createTitle}
-          initialValues={nodeTypesMapping[nodeType].initialValues}
+          initialValues={initialValues}
           validate={nodeTypesMapping[nodeType].validate}
           model={nodeTypesMapping[nodeType].model}
           onSubmit={handleCreateFormSubmit}
