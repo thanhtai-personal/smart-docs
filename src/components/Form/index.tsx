@@ -28,7 +28,7 @@ const Form = (props: FormProps) => {
     return Object.keys(getOptions).reduce((prev: any, current: string) => {
       return {
         ...prev,
-        [current]: getOptions[current](dataSelected)
+        [current]: getOptions[current](dataSelected),
       };
     }, {});
   }, [getOptions]);
@@ -84,7 +84,6 @@ const Form = (props: FormProps) => {
           isSubmitting,
           validateForm,
         }) => {
-          
           return (
             <>
               <form onSubmit={handleSubmit}>
@@ -135,7 +134,7 @@ const Form = (props: FormProps) => {
                       padding: "8px",
                     }}
                   >
-                    Submit
+                    Save
                   </button>
                 </div>
               </form>
