@@ -1,3 +1,4 @@
+import { useField } from "formik";
 import { memo, useEffect, useState } from "react";
 
 interface TabSelectorProps {
@@ -9,11 +10,20 @@ interface TabSelectorProps {
   }>;
   defaultValue: any;
   label: string;
+  name: string;
 }
 
 const TabSelector = (props: TabSelectorProps) => {
-  const { options, onChange, defaultValue, label } = props;
-  const [value, setValue] = useState(defaultValue)
+  const { options, onChange, defaultValue, label, name } = props;
+  const [value, setValue] = useState(defaultValue);
+
+  const [field, meta, helpers] = useField(name);
+
+  const handleChange = (opt: any) => (e: any) => {
+    setValue(opt.value);
+    helpers.setValue(opt.value);
+    () => onChange && onChange(opt.value)
+  }
 
   useEffect(() => {
     setValue(defaultValue)
@@ -25,10 +35,10 @@ const TabSelector = (props: TabSelectorProps) => {
       <div className="value">
         {options.map((opt) => (
             <div
-            onClick={() => onChange && onChange(opt.value)}
+            onClick={handleChange(opt)}
             key={opt.key}
             className={
-                opt.value === value ? "tab-item active" : "tab-item"
+              opt.value === value ? "tab-item active" : "tab-item"
             }
             >
             {opt.name}
