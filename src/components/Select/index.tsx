@@ -1,5 +1,5 @@
 const Select = (props: any) => {
-  const { onChange, defaultValue, getOptions, label } = props;
+  const { onChange, defaultValue, getOptions, label, name } = props;
 
   return (
     <div className="select-wrapper">
@@ -9,6 +9,7 @@ const Select = (props: any) => {
         placeholder="Select parent node"
         onChange={onChange}
         defaultValue={defaultValue}
+        name={name}
       >
         <option value={""}>None</option>
         {getOptions &&

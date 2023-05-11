@@ -147,13 +147,23 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     [_nodes, _edges]
   );
 
-  const handleCreateFormSubmit = (values: any) => {
+  const handleCreateNode = (values: any) => {
     nodeTypesMapping[nodeType].onSubmit(values, async (nodeData: any) => {
       await onUpdateJson({
         nodes: [..._nodes, nodeData],
         edges: _edges,
       });
       setOpenNodeModal(false);
+    });
+  };
+
+  const handleCreateEdge = (values: any) => {
+    edgeTypesMapping[edgeType].onSubmit(values, async (edgeData: any) => {
+      await onUpdateJson({
+        edges: [..._edges, edgeData],
+        nodes: _nodes,
+      });
+      setOpenEdgeModal(false);
     });
   };
 
@@ -194,7 +204,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
           initialValues={initialNodeValues}
           validate={nodeTypesMapping[nodeType].validate}
           model={nodeTypesMapping[nodeType].model}
-          onSubmit={handleCreateFormSubmit}
+          onSubmit={handleCreateNode}
           getOptions={nodeTypesMapping[nodeType].getOptions}
           dataSelected={{
             nodes: _nodes,
@@ -215,7 +225,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
           initialValues={initialEdgeValues}
           validate={edgeTypesMapping[edgeType]?.validate}
           model={edgeTypesMapping[edgeType]?.model}
-          onSubmit={handleCreateFormSubmit}
+          onSubmit={handleCreateEdge}
           getOptions={edgeTypesMapping[edgeType]?.getOptions}
           dataSelected={{
             nodes: _nodes,
