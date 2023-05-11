@@ -1,14 +1,5 @@
-import { useField } from "formik";
-
 const Select = (props: any) => {
-  const { onChange, defaultValue, getOptions, label, name } = props;
-  const [field, meta, helpers] = useField(name);
-  const { setValue } = helpers
-
-  const handleChange = (e: any) => {
-    setValue(e.target.value);
-    onChange && onChange(e);
-  }
+  const { onChange, defaultValue, getOptions, label } = props;
 
   return (
     <div className="select-wrapper">
@@ -16,9 +7,8 @@ const Select = (props: any) => {
       <select
         className="node-selection"
         placeholder="Select parent node"
-        onChange={handleChange}
+        onChange={onChange}
         defaultValue={defaultValue}
-        name={name}
       >
         <option value={""}>None</option>
         {getOptions &&

@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo } from "react";
-import { Formik } from "formik";
+import React, { useMemo } from "react";
+import { useFormik } from "formik";
+import Field from "@/components/Field";
 
 interface FormProps {
   title: string;
@@ -41,6 +42,21 @@ const Form = (props: FormProps) => {
     [model]
   );
 
+  const formRef = useFormik({
+    initialValues,
+    validate: validate,
+    validateOnChange: false,
+    enableReinitialize: true,
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        await (onSubmit && onSubmit(values));
+      } catch (error) {
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
+
   return (
     <div
       style={{
@@ -61,88 +77,40 @@ const Form = (props: FormProps) => {
       >
         <h1 style={{ fontWeight: 700, textTransform: "uppercase" }}>{title}</h1>
       </div>
-      <Formik
-        initialValues={initialValues}
-        validate={validate}
-        validateOnChange={false}
-        enableReinitialize={true}
-        onSubmit={async (values, { setSubmitting }) => {
-          try {
-            await (onSubmit && onSubmit(values));
-          } catch (error) {
-          } finally {
-            setSubmitting(false);
-          }
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          validateForm,
-        }) => {
-          return (
-            <>
-              <form onSubmit={handleSubmit}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginTop: "16px",
-                  }}
-                >
-                  {fields.map((item) => {
-                    return (
-                      <div
-                        key={`item-${item.priority}`}
-                        style={{
-                          marginTop: "8px",
-                        }}
-                      >
-                        {item.render({
-                          item,
-                          values,
-                          errors,
-                          touched,
-                          handleChange,
-                          handleBlur,
-                          handleSubmit,
-                          isSubmitting,
-                          validateForm,
-                          getOptions: passedDataGetOptions,
-                        })}
-                      </div>
-                    );
-                  })}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    width: "100%",
-                    padding: "8px 0",
-                  }}
-                >
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    style={{
-                      background: "steelblue",
-                      padding: "8px",
-                    }}
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </>
-          );
-        }}
-      </Formik>
+      <form onSubmit={formRef.handleSubmit}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "16px",
+          }}
+        >
+          {fields.map((item) => {
+            return (
+              <Field key={`item-${item.priority}-${item.id}`} item={item} form={formRef} getOptions={passedDataGetOptions} />
+            );
+          })}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            padding: "8px 0",
+          }}
+        >
+          <button
+            type="submit"
+            disabled={formRef.isSubmitting}
+            style={{
+              background: "steelblue",
+              padding: "8px",
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
