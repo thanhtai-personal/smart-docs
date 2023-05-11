@@ -66,7 +66,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   const handleEditEdge = (edge: any) => {
     setOpenNodeModal(false);
     setOpenEdgeModal(true);
-    setEdgeType(edge.type);
+    setEdgeType(edge.type || EDGE_TYPE.DEFAULT);
     setInitialEdgeValues(edgeTypesMapping[edgeType].getInitialValues(edge));
   };
 
@@ -211,12 +211,12 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       </ReactModal>
       <ReactModal isOpen={openEdgeModal} onClose={handleCloseEdgeModal}>
         <Form
-          title={edgeTypesMapping[edgeType].createTitle}
+          title={edgeTypesMapping[edgeType]?.createTitle}
           initialValues={initialEdgeValues}
-          validate={edgeTypesMapping[edgeType].validate}
-          model={edgeTypesMapping[edgeType].model}
+          validate={edgeTypesMapping[edgeType]?.validate}
+          model={edgeTypesMapping[edgeType]?.model}
           onSubmit={handleCreateFormSubmit}
-          getOptions={edgeTypesMapping[edgeType].getOptions}
+          getOptions={edgeTypesMapping[edgeType]?.getOptions}
           dataSelected={{
             nodes: _nodes,
             edges: _edges,
