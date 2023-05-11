@@ -5,130 +5,137 @@ import Select from "@/components/Select";
 const DefaultEdgeModel = {
   id: {
     priority: 1,
-    render: ({ handleChange, values }: any) => {
+    render: ({ onChange, value }: any) => {
       return (
         <Input
           name="id"
           placeholder="Enter unique id"
-          onChange={handleChange}
-          value={values?.id}
+          onChange={onChange}
+          value={value}
         />
       );
     },
   },
   label: {
     priority: 1.1,
-    render: ({ handleChange, values }: any) => {
+    render: ({ onChange, value }: any) => {
       return (
         <Input
           name="Label"
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter label"
-          value={values?.label}
+          value={value}
         />
       );
     },
   },
   style: {
     priority: 1.2,
-    render: ({ handleChange, values }: any) => {
+    render: ({ onChange, value }: any) => {
       return (
         <Input
           name="Style"
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter style"
-          value={values?.style}
+          value={value}
         />
       );
     },
   },
   source: {
     priority: 2,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"source"}
           label={"Source node:"}
-          onChange={handleChange}
-          defaultValue={values.source}
-          getOptions={getOptions?.source}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   target: {
     priority: 3,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"target"}
           label={"Target node:"}
-          onChange={handleChange}
-          defaultValue={values.target}
-          getOptions={getOptions?.target}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   sourceHandle: {
     priority: 4,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"sourceHandle"}
           label={"Source handle:"}
-          onChange={handleChange}
-          defaultValue={values.sourceHandle}
-          getOptions={getOptions?.sourceHandle}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   markerStart: {
     priority: 5,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"markerStart"}
           label={"Marker start:"}
-          onChange={handleChange}
-          defaultValue={values.markerStart}
-          getOptions={getOptions?.markerStart}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   markerEnd: {
     priority: 6,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"markerEnd"}
           label={"Marker end:"}
-          onChange={handleChange}
-          defaultValue={values.markerEnd}
-          getOptions={getOptions?.markerEnd}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   className: {
     priority: 7,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"className"}
           label={"Classname:"}
-          onChange={handleChange}
-          defaultValue={values.className}
-          getOptions={getOptions?.className}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   animated: {
     priority: 8,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <RadioCheckbox
+          name={"animated"}
           label={"Animated:"}
-          onChange={handleChange}
-          defaultValue={values.animated}
-          getOptions={getOptions?.animated}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },

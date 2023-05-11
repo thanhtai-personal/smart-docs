@@ -1,4 +1,5 @@
 import Input from "@/components/Input";
+import InputArea from "@/components/InputArea";
 import InputNumber from "@/components/InputNumber";
 import RadioCheckbox from "@/components/RadioCheckbox";
 import Select from "@/components/Select";
@@ -6,40 +7,38 @@ import Select from "@/components/Select";
 const expandFrameModel = {
   id: {
     priority: 1,
-    render: ({ values, handleChange }: any) => {
+    render: ({ value, onChange }: any) => {
       return (
         <Input
           name="id"
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter unique id"
-          value={values?.id}
+          value={value}
         />
       );
     },
   },
   label: {
     priority: 2,
-    render: ({ handleChange, values }: any) => {
+    render: ({ onChange, value }: any) => {
       return (
         <Input
           name="label"
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter label"
-          value={values?.label}
+          value={value}
         />
       );
     },
   },
   content: {
     priority: 3,
-    render: ({ handleChange, values }: any) => {
+    render: ({ onChange, value }: any) => {
       return (
-        <textarea
-          style={{ padding: "8px" }}
-          rows={10}
+        <InputArea
           name="content"
-          value={values?.content}
-          onChange={handleChange}
+          value={value}
+          onChange={onChange}
           placeholder="Enter content text or html string"
         />
       );
@@ -47,52 +46,54 @@ const expandFrameModel = {
   },
   zIndex: {
     priority: 4,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <InputNumber
           name="zIndex: "
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter zIndex"
-          value={values?.zIndex}
+          value={value}
         />
       );
     },
   },
   style: {
     priority: 5,
-    render: ({ handleChange, values }: any) => {
+    render: ({ onChange, value }: any) => {
       return (
         <Input
           name="Style"
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter style"
-          value={values?.style}
+          value={value}
         />
       );
     },
   },
   selectable: {
     priority: 6,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <RadioCheckbox
+          name="selectable"
           label={"Selectable:"}
-          onChange={handleChange}
-          defaultValue={values.selectable}
-          getOptions={getOptions?.selectable}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },
   },
   parentNode: {
     priority: 7,
-    render: ({ handleChange, values, getOptions }: any) => {
+    render: ({ onChange, value, getOptions }: any) => {
       return (
         <Select
+          name={"parentNode"}
           label={"Parent node:"}
-          onChange={handleChange}
-          defaultValue={values.parentNode}
-          getOptions={getOptions?.parentNode}
+          onChange={onChange}
+          defaultValue={value}
+          getOptions={getOptions}
         />
       );
     },

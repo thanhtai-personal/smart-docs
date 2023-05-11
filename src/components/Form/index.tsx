@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useFormik } from "formik";
+import { Form as FomikForm, Formik, FormikProps } from "formik";
 import Field from "@/components/Field";
 
 interface FormProps {
@@ -37,25 +37,13 @@ const Form = (props: FormProps) => {
   const fields = useMemo(
     () =>
       Object.keys(model)
-        .map((key) => model[key])
+        .map((key) => ({
+          ...model[key],
+          name: key,
+        }))
         .sort((a, b) => (a.priority || 1) - (b.priority || 1)),
     [model]
   );
-
-  const formRef = useFormik({
-    initialValues,
-    validate: validate,
-    validateOnChange: false,
-    enableReinitialize: true,
-    onSubmit: async (values, { setSubmitting }) => {
-      try {
-        await (onSubmit && onSubmit(values));
-      } catch (error) {
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
 
   return (
     <div
@@ -77,40 +65,61 @@ const Form = (props: FormProps) => {
       >
         <h1 style={{ fontWeight: 700, textTransform: "uppercase" }}>{title}</h1>
       </div>
-      <form onSubmit={formRef.handleSubmit}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "16px",
-          }}
-        >
-          {fields.map((item) => {
-            return (
-              <Field key={`item-${item.priority}-${item.id}`} item={item} form={formRef} getOptions={passedDataGetOptions} />
-            );
-          })}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            padding: "8px 0",
-          }}
-        >
-          <button
-            type="submit"
-            disabled={formRef.isSubmitting}
-            style={{
-              background: "steelblue",
-              padding: "8px",
-            }}
-          >
-            Save
-          </button>
-        </div>
-      </form>
+      <Formik
+        initialValues={initialValues}
+        validate={validate}
+        validateOnChange={false}
+        enableReinitialize
+        onSubmit={async (values, actions) => {
+          try {
+            await (onSubmit && onSubmit(values));
+          } catch (error) {
+          } finally {
+            actions.setSubmitting(false);
+          }
+        }}
+      >
+        {(props: FormikProps<any>) => (
+          <FomikForm>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "16px",
+              }}
+            >
+              {fields.map((item) => {
+                return (
+                  <Field
+                    key={`item-${item.priority}-${item.id}`}
+                    item={item}
+                    getOptions={passedDataGetOptions}
+                  />
+                );
+              })}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+                padding: "8px 0",
+              }}
+            >
+              <button
+                type="submit"
+                disabled={props.isSubmitting}
+                style={{
+                  background: "steelblue",
+                  padding: "8px",
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </FomikForm>
+        )}
+      </Formik>
     </div>
   );
 };

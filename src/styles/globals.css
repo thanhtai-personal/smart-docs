@@ -257,6 +257,10 @@ select {
   margin: 4px 8px;
 }
 
+.field {
+  margin: 8px 0;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 4px;

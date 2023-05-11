@@ -117,7 +117,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     >
       <div className="drawing-left-bar">
         <div className="drawing-bar-item">
-          <span style={{ color: "#fff" }}>Select node type:&nbsp;</span>
+          <span style={{ color: "#fff" }}>Type:&nbsp;</span>
           <select onChange={handleChangeNodeType} value={nodeType}>
             {Object.keys(nodeTypesMapping).map((key) => (
               <option key={key} value={key}>
@@ -138,7 +138,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           </button>
         </div>
         <div className="drawing-bar-item">
-          <span style={{ color: "#fff" }}>Select edge type:&nbsp;</span>
+          <span style={{ color: "#fff" }}>Edge:&nbsp;</span>
           <select onChange={handleChangeEdgeType} value={edgeType}>
             {Object.keys(edgeTypesMapping).map((key) => (
               <option key={key} value={key}>

@@ -9,30 +9,29 @@ interface TabSelectorProps {
   }>;
   defaultValue: any;
   label: string;
+  name?: string;
 }
 
 const TabSelector = (props: TabSelectorProps) => {
-  const { options, onChange, defaultValue, label } = props;
-  const [value, setValue] = useState(defaultValue)
+  const { options, onChange, defaultValue, label, name } = props;
+  const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    setValue(defaultValue)
-  }, [defaultValue])
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <div className="tab-selector">
       {label && <div className="label">{label}</div>}
       <div className="value">
         {options.map((opt) => (
-            <div
+          <div
             onClick={() => onChange && onChange(opt.value)}
             key={opt.key}
-            className={
-                opt.value === value ? "tab-item active" : "tab-item"
-            }
-            >
+            className={opt.value === value ? "tab-item active" : "tab-item"}
+          >
             {opt.name}
-            </div>
+          </div>
         ))}
       </div>
     </div>

@@ -1,15 +1,14 @@
 const RadioCheckbox = (props: any) => {
-  const { name, onChange, defaultValue, label } = props;
+  const { name, onChange, label } = props;
+
+  const handleChange = (e: any) => {
+    onChange && onChange(e.target.checked);
+  };
 
   return (
     <div className="checkbox-wrapper">
       <div className="label">{label}</div>
-      <input
-        name={name}
-        onChange={onChange}
-        value={defaultValue}
-        type="checkbox"
-      />
+      <input name={name} onChange={handleChange} type="checkbox" />
     </div>
   );
 };

@@ -1,21 +1,12 @@
-import { useEffect, useRef } from "react";
-
 const Input = (props: any) => {
   const { name, onChange, value, placeholder } = props;
-  const inputRef: any = useRef();
 
-  useEffect(() => {
-    inputRef.current.value = value || "";
-  }, [value])
+  const handleChange = (e: any) => {
+    onChange && onChange(e.target.value);
+  };
 
   return (
-    <input
-      name={name}
-      onChange={onChange}
-      placeholder={placeholder}
-      // value={defaultValue}
-      ref={inputRef}
-    />
+    <input name={name} onChange={handleChange} placeholder={placeholder} />
   );
 };
 
