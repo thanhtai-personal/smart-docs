@@ -6,34 +6,39 @@ import Select from "@/components/Select";
 const mediaCardModel = {
   id: {
     priority: 1,
-    render: ({
-      handleChange,
-    }: any) => {
+    render: ({ handleChange, values }: any) => {
       return (
-        <input
+        <Input
           name="id"
-          placeholder="Enter unique id"
           onChange={handleChange}
+          placeholder="Enter unique id"
+          value={values?.id}
         />
       );
     },
   },
   label: {
     priority: 2,
-    render: ({ handleChange }: any) => {
+    render: ({ handleChange, values }: any) => {
       return (
-        <input name="label" onChange={handleChange} placeholder="Enter label" />
+        <Input
+          name="label"
+          onChange={handleChange}
+          placeholder="Enter label"
+          value={values?.label}
+        />
       );
     },
   },
   mdContent: {
     priority: 3,
-    render: ({ handleChange }: any) => {
+    render: ({ handleChange, values }: any) => {
       return (
         <textarea
           style={{ padding: "8px" }}
           rows={10}
           name="mdContent"
+          value={values.mdContent}
           onChange={handleChange}
           placeholder="Enter markdown content"
         />

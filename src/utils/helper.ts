@@ -10,13 +10,14 @@ export const makeNodeTypeMappingItem = ({
   model,
   type,
   getOptions,
+  getInitialValues,
 }: any) => ({
   name: name,
   createTitle: createTitle,
   model: model,
   getOptions,
   validate: (values: any) => !!values.id,
-  getInitialValues: (nodeData: any) => ({
+  getInitialValues: getInitialValues || ((nodeData: any) => ({
     id: nodeData.id || "",
     label: nodeData.label || "",
     targetPosition: nodeData.targetPosition || POSITION.TOP,
@@ -25,7 +26,7 @@ export const makeNodeTypeMappingItem = ({
     selectable: nodeData.selectable || true,
     zIndex: nodeData.zIndex || 0,
     style: nodeData.style || "",
-  }),
+  })),
   onSubmit: (values: any, addNodeFuntion: Function) => {
     addNodeFuntion &&
       addNodeFuntion({

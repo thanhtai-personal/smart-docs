@@ -89,6 +89,7 @@ export const nodeTypesMapping: any = {
       id: nodeData.id || "",
       className: nodeData.className || "",
       content: nodeData.data?.content || "",
+      label: nodeData.data?.label || "",
       targetPosition: nodeData.targetPosition || POSITION.TOP,
       sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
       parentNode: nodeData.parentNode || "",
@@ -134,17 +135,20 @@ export const nodeTypesMapping: any = {
     getOptions: {
       parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id }))
     },
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      mdContent: nodeData.data?.mdContent || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
+    getInitialValues: (nodeData: any) => {
+      console.log("nodeData", nodeData)
+      return ({
+        id: nodeData.id || "",
+        label: nodeData.data?.label || "",
+        mdContent: nodeData.data?.mdContent || "",
+        targetPosition: nodeData.targetPosition || POSITION.TOP,
+        sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+        parentNode: nodeData.parentNode || "",
+        selectable: nodeData.selectable || true,
+        zIndex: nodeData.zIndex || 0,
+        style: nodeData.style || "",
+      })
+    },
     validate: (values: any) => !!values.id,
     model: MediaCardNodeCreateModel,
     onSubmit: (values: any, addNodeFuntion: Function) => {

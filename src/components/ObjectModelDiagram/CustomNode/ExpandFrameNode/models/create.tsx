@@ -6,45 +6,39 @@ import Select from "@/components/Select";
 const expandFrameModel = {
   id: {
     priority: 1,
-    render: ({
-      //   item,
-      //   values,
-      //   errors,
-      //   touched,
-      //   handleBlur,
-      //   handleSubmit,
-      //   isSubmitting,
-      handleChange,
-    }: any) => {
+    render: ({ values, handleChange }: any) => {
       return (
-        <input
+        <Input
           name="id"
-          placeholder="Enter unique id"
           onChange={handleChange}
+          placeholder="Enter unique id"
+          value={values?.id}
         />
       );
     },
   },
   label: {
     priority: 2,
-    render: ({ handleChange }: any) => {
+    render: ({ handleChange, values }: any) => {
       return (
-        <input
+        <Input
           name="label"
           onChange={handleChange}
           placeholder="Enter label"
+          value={values?.label}
         />
       );
     },
   },
   content: {
     priority: 3,
-    render: ({ handleChange }: any) => {
+    render: ({ handleChange, values }: any) => {
       return (
         <textarea
           style={{ padding: "8px" }}
           rows={10}
           name="content"
+          value={values?.content}
           onChange={handleChange}
           placeholder="Enter content text or html string"
         />
