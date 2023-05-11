@@ -5,7 +5,7 @@ import Select from "@/components/Select";
 import TabSelector from "@/components/TabSelecter";
 import { positionOptions } from "@/utils/constants";
 
-const OutputModel = {
+const DefaultModel = {
   id: {
     priority: 1,
     render: ({ handleChange, values }: any) => {
@@ -32,21 +32,8 @@ const OutputModel = {
       );
     },
   },
-  className: {
-    priority: 3,
-    render: ({ handleChange, values }: any) => {
-      return (
-        <Input
-          name="className"
-          onChange={handleChange}
-          placeholder="Enter className (heading)"
-          value={values?.className}
-        />
-      );
-    },
-  },
   zIndex: {
-    priority: 4,
+    priority: 3,
     render: ({ handleChange, values, getOptions }: any) => {
       return (
         <InputNumber
@@ -59,7 +46,7 @@ const OutputModel = {
     },
   },
   style: {
-    priority: 5,
+    priority: 4,
     render: ({ handleChange, values }: any) => {
       return (
         <Input
@@ -67,6 +54,19 @@ const OutputModel = {
           onChange={handleChange}
           placeholder="Enter style"
           value={values?.style}
+        />
+      );
+    },
+  },
+  className: {
+    priority: 5,
+    render: ({ handleChange, values, getOptions }: any) => {
+      return (
+        <Select
+          label={"Classname:"}
+          onChange={handleChange}
+          defaultValue={values.className}
+          getOptions={getOptions?.className}
         />
       );
     },
@@ -125,4 +125,4 @@ const OutputModel = {
   },
 };
 
-export default OutputModel;
+export default DefaultModel;

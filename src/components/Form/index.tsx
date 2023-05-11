@@ -65,6 +65,7 @@ const Form = (props: FormProps) => {
         initialValues={initialValues}
         validate={validate}
         validateOnChange={false}
+        enableReinitialize={true}
         onSubmit={async (values, { setSubmitting }) => {
           try {
             await (onSubmit && onSubmit(values));

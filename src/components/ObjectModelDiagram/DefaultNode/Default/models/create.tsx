@@ -32,21 +32,8 @@ const DefaultModel = {
       );
     },
   },
-  className: {
-    priority: 3,
-    render: ({ handleChange, values }: any) => {
-      return (
-        <Input
-          name="className"
-          onChange={handleChange}
-          placeholder="Enter className (heading)"
-          value={values?.className}
-        />
-      );
-    },
-  },
   zIndex: {
-    priority: 4,
+    priority: 3,
     render: ({ handleChange, values, getOptions }: any) => {
       return (
         <InputNumber
@@ -59,7 +46,7 @@ const DefaultModel = {
     },
   },
   style: {
-    priority: 5,
+    priority: 4,
     render: ({ handleChange, values }: any) => {
       return (
         <Input
@@ -67,6 +54,19 @@ const DefaultModel = {
           onChange={handleChange}
           placeholder="Enter style"
           value={values?.style}
+        />
+      );
+    },
+  },
+  className: {
+    priority: 5,
+    render: ({ handleChange, values, getOptions }: any) => {
+      return (
+        <Select
+          label={"Classname:"}
+          onChange={handleChange}
+          defaultValue={values.className}
+          getOptions={getOptions?.className}
         />
       );
     },

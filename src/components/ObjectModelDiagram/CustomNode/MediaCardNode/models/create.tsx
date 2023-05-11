@@ -1,14 +1,12 @@
+import Input from "@/components/Input";
+import InputNumber from "@/components/InputNumber";
+import RadioCheckbox from "@/components/RadioCheckbox";
+import Select from "@/components/Select";
+
 const mediaCardModel = {
   id: {
     priority: 1,
     render: ({
-      //   item,
-      //   values,
-      //   errors,
-      //   touched,
-      //   handleBlur,
-      //   handleSubmit,
-      //   isSubmitting,
       handleChange,
     }: any) => {
       return (
@@ -38,6 +36,58 @@ const mediaCardModel = {
           name="mdContent"
           onChange={handleChange}
           placeholder="Enter markdown content"
+        />
+      );
+    },
+  },
+  zIndex: {
+    priority: 4,
+    render: ({ handleChange, values, getOptions }: any) => {
+      return (
+        <InputNumber
+          name="zIndex: "
+          onChange={handleChange}
+          placeholder="Enter zIndex"
+          value={values?.zIndex}
+        />
+      );
+    },
+  },
+  style: {
+    priority: 5,
+    render: ({ handleChange, values }: any) => {
+      return (
+        <Input
+          name="Style"
+          onChange={handleChange}
+          placeholder="Enter style"
+          value={values?.style}
+        />
+      );
+    },
+  },
+  selectable: {
+    priority: 6,
+    render: ({ handleChange, values, getOptions }: any) => {
+      return (
+        <RadioCheckbox
+          label={"Selectable:"}
+          onChange={handleChange}
+          defaultValue={values.selectable}
+          getOptions={getOptions?.selectable}
+        />
+      );
+    },
+  },
+  parentNode: {
+    priority: 7,
+    render: ({ handleChange, values, getOptions }: any) => {
+      return (
+        <Select
+          label={"Parent node:"}
+          onChange={handleChange}
+          defaultValue={values.parentNode}
+          getOptions={getOptions?.parentNode}
         />
       );
     },

@@ -203,7 +203,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
               {
                 key: "heading",
                 value: "heading",
-                name: "heading",
+                label: "heading",
               },
             ],
           }}
@@ -225,17 +225,17 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
               {
                 key: "none",
                 value: "",
-                name: "None",
+                label: "None",
               },
               {
                 key: MarkerType.Arrow,
                 value: MarkerType.Arrow,
-                name: MarkerType.Arrow,
+                label: MarkerType.Arrow,
               },
               {
                 key: MarkerType.ArrowClosed,
                 value: MarkerType.ArrowClosed,
-                name: MarkerType.ArrowClosed,
+                label: MarkerType.ArrowClosed,
               },
             ],
           }}

@@ -9,10 +9,12 @@ export const makeNodeTypeMappingItem = ({
   createTitle,
   model,
   type,
+  getOptions,
 }: any) => ({
   name: name,
   createTitle: createTitle,
   model: model,
+  getOptions,
   validate: (values: any) => !!values.id,
   getInitialValues: (nodeData: any) => ({
     id: nodeData.id || "",
@@ -60,11 +62,13 @@ export const makeEdgeMappingItem = ({
   createTitle,
   model,
   edgeType,
+  getOptions,
 }: any) => ({
   name: name,
   createTitle: createTitle,
   model: model,
   validate: (values: any) => !!values.id,
+  getOptions,
   getInitialValues: (edgeData: any) => ({
     id: edgeData.id || "",
     source: edgeData.source || "",
