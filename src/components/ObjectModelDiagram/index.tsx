@@ -32,12 +32,18 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     onOpenJson,
     openJson,
   } = props;
-
   const [nodeType, setNodeType] = useState(NODE_TYPE.EXPAND_FRAME as string);
   const [edgeType, setEdgeType] = useState(EDGE_TYPE.DEFAULT as string);
-  const [onConnect, onInit, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange] = useInitialReactFlow({
-    nodes: _nodes,
-    edges: _edges,
+  const [
+    { onConnect, onInit },
+    { nodes, edges },
+    { setNodes, setEdges, onNodesChange, onEdgesChange },
+  ] = useInitialReactFlow({
+    nodes: _nodes || [],
+    edges: _edges || [],
+    onChange: (newData: any) => {
+      onUpdateJson(newData);
+    },
     ref: ref,
   });
 
@@ -47,7 +53,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       edges
     },
     onUpdateFormData: (changes: Array<any>) => {
-      onNodesChange(changes);
+      onNodesChange && onNodesChange(changes);
       setTimeout(() => {
         onUpdateJson({
           nodes,
@@ -74,13 +80,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       edges: _edges
     },
     onUpdateFormData: (changes: Array<any>) => {
-      onEdgesChange(changes);
-      setTimeout(() => {
-        onUpdateJson({
-          nodes: _nodes,
-          edges: _edges,
-        });
-      }, 0);
+      onEdgesChange && onEdgesChange(changes);
     },
     onSubmit: (values: any) => {
       nodeTypesMapping[nodeType].onSubmit(values, async (nodeData: any) => {
@@ -99,21 +99,33 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   return (
     <>
       <DrawingTool
-        addNode={nodeFormEvents.handleAdd}
-        editNode={nodeFormEvents.handleEdit}
-        addEdge={edgeFormEvents.handleAdd}
-        editEdge={edgeFormEvents.handleEdit}
+        addNode={(type: string) => {
+          setNodeType(type);
+          nodeFormEvents.handleOpenModal && nodeFormEvents.handleOpenModal({});
+        }}
+        editNode={(item: any) => {
+          setNodeType(item.type);
+          nodeFormEvents.handleOpenModal && nodeFormEvents.handleOpenModal(item);
+        }}
+        addEdge={(type: string) => {
+          setEdgeType(type);
+          edgeFormEvents.handleOpenModal && edgeFormEvents.handleOpenModal({});
+        }}
+        editEdge={(item: any) => {
+          setEdgeType(item.type);
+          edgeFormEvents.handleOpenModal && edgeFormEvents.handleOpenModal(item);
+        }}
         openJson={openJson}
         onOpenJson={onOpenJson}
         onUpdateJson={onUpdateJson}
-        nodes={_nodes}
-        edges={_edges}
+        nodes={nodes || []}
+        edges={edges || []}
         setNodes={setNodes}
         setEdges={setEdges}
       />
       <ReactFlow
-        nodes={_nodes}
-        edges={edges}
+        nodes={nodes || []}
+        edges={edges || []}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}

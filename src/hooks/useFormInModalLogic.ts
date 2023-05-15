@@ -11,10 +11,6 @@ const useFormInModalLogic = (props: any) => {
     }
   }, [initialData]);
 
-  const handleAdd = useCallback(() => {}, []);
-
-  const handleEdit = useCallback(() => {}, []);
-
   const handleUpdateData = useCallback(() => {}, []);
 
   const handleUpdateRelatedFields = useCallback(() => {}, []);
@@ -25,6 +21,11 @@ const useFormInModalLogic = (props: any) => {
     setIsOpenModal(false);
     setValues({});
   }, []);
+
+  const handleOpenModal = useCallback((values?: any) => {
+    setValues(values || {});
+    setIsOpenModal(true);
+  }, [])
 
   const handleSubmit = useCallback(() => {
     const dataSubmit = mappingSubmitData ? mappingSubmitData(values) : values;
@@ -37,11 +38,10 @@ const useFormInModalLogic = (props: any) => {
       values
     },
     {
-      handleAdd,
-      handleEdit,
       handleUpdateData,
       handleUpdateRelatedFields,
       handleUpdateErrors,
+      handleOpenModal,
       handleCloseModal,
       handleSubmit,
     },

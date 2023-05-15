@@ -104,3 +104,25 @@ export const makeEdgeMappingItem = ({
       });
   },
 });
+
+export const handleImportFile = (event: any, fileType: string, onLoadFunc: Function) => {
+  const file = event.target.files[0];
+  if (file && file.type === fileType) {
+    const reader: any = new FileReader();
+    reader.readAsText(file);
+    reader.onload = onLoadFunc(reader);
+  }
+}
+
+export const handleDownloadFile = (fileName: string, fileData: any) => {
+  let element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(fileData)
+  );
+  element.setAttribute("download", fileName);
+  element.style.display = "none";
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};

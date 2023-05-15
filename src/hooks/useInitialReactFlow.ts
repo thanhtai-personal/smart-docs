@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { addEdge, useEdgesState, useNodesState } from "reactflow";
 
 const useInitialReactFlow = (props: any) => {
-  const { nodes, edges, ref } = props;
+  const { nodes, edges, ref, onChange } = props;
 
   const [_nodes, setNodes, onNodesChange] = useNodesState(nodes as Array<any>);
   const [_edges, setEdges, onEdgesChange] = useEdgesState(edges as Array<any>);
@@ -40,16 +40,43 @@ const useInitialReactFlow = (props: any) => {
 
   const edgesWithUpdatedTypes = useMemo(() => {
     _edges.map((edge: any) => {
-        if (edge.sourceHandle) {
-          const edgeType = nodes.find((node: any) => node?.type === "custom")?.data
-            .selects[edge.sourceHandle];
-          edge.type = edgeType;
-        }
-        return edge;
-      })
+      if (edge.sourceHandle) {
+        const edgeType = nodes.find((node: any) => node?.type === "custom")
+          ?.data.selects[edge.sourceHandle];
+        edge.type = edgeType;
+      }
+      return edge;
+    });
   }, [_edges]);
 
-  return [onConnect, onInit, nodes, edgesWithUpdatedTypes, setNodes, setEdges, onNodesChange, onEdgesChange]
+  const handleNodeChanges = (changes: Array<any>) => {
+    onNodesChange(changes);
+    onChange &&
+      onChange({
+        nodes: _nodes,
+        edges: _edges,
+      });
+  };
+
+  const handleEdgeChanges = (changes: Array<any>) => {
+    onNodesChange(changes);
+    onChange &&
+      onChange({
+        nodes: _nodes,
+        edges: _edges,
+      });
+  };
+
+  return [
+    { onConnect, onInit },
+    { nodes, edges: edgesWithUpdatedTypes },
+    {
+      setNodes,
+      setEdges,
+      onNodesChange: handleNodeChanges,
+      onEdgesChange: handleEdgeChanges,
+    },
+  ];
 };
 
 export default useInitialReactFlow;

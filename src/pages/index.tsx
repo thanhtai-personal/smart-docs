@@ -1,72 +1,39 @@
+import { useRef } from "react";
+import moment from "moment";
 import ReactModal from "@/components/Modal";
 import ObjectModelDiagram from "@/components/ObjectModelDiagram";
 import useModalHotkey from "@/hooks/useModalHotkey";
-import { useEffect, useMemo, useRef, useState } from "react";
-import defaultData from "./document.json";
-import moment from "moment";
+import useLocalStorageData from "@/hooks/useLocalStorageData";
 import JsonViewerComponent from "@/components/JsonViewer";
 import { jsonViewerTheme } from "@/utils/constants";
 import TooltipComponent from "@/components/Tooltip";
+import { handleDownloadFile, handleImportFile } from "@/utils/helper";
 
 export default function Home() {
   const [jsonInputModalOpen, setJsonInputModalOpen] = useModalHotkey();
-  const [jsonData, setJsonData] = useState("[]");
+  const [jsonData, objectData, updateJsonData] = useLocalStorageData("document-data");
+
   const chartRef: any = useRef();
   const fileNameRef: any = useRef();
 
   const handleJsonChange = (event: any) => {
-    setJsonData(event.target.value);
-    localStorage.setItem("document-data", event.target.value);
+    updateJsonData(event.target.value || "{}");
   };
 
-  const data = useMemo(() => {
-    try {
-      return JSON.parse(jsonData);
-    } catch (error) {
-      if (typeof alert === "function") {
-        localStorage.removeItem("document-data");
-        alert("Json format error!!!");
-      }
-      return [];
-    }
-  }, [jsonData]);
-
-  useEffect(() => {
-    const storageData = localStorage.getItem("document-data");
-    setJsonData(storageData || JSON.stringify(defaultData));
-  }, []);
-
   const handleUpdateJson = (data: any) => {
-    setJsonData(JSON.stringify(data));
-    localStorage.setItem("document-data", JSON.stringify(data));
+    updateJsonData(JSON.stringify(data));
   };
 
   const handleExportJson = () => {
-    const filename = fileNameRef.current.value
+    handleDownloadFile(fileNameRef.current.value
       ? `${fileNameRef.current.value}.json`
-      : `${moment().format("DD-MM-YYYY")}_document.json`;
-
-    let element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(jsonData)
-    );
-    element.setAttribute("download", filename);
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+      : `${moment().format("DD-MM-YYYY")}_document.json`, jsonData)
   };
 
-  const hanleImportJson = (event: any) => {
-    const file = event.target.files[0];
-    if (file && file.type === "application/json") {
-      const reader: any = new FileReader();
-      reader.readAsText(file);
-      reader.onload = () => {
-        setJsonData(reader.result);
-      };
-    }
+  const handleImportJson = (event: any) => {
+    handleImportFile(event, "application/json", (reader: any) => () => {
+      updateJsonData(reader.result);
+    })
   };
 
   return (
@@ -84,8 +51,8 @@ export default function Home() {
       >
         <ObjectModelDiagram
           ref={chartRef}
-          nodes={data.nodes}
-          edges={data.edges}
+          nodes={objectData?.nodes}
+          edges={objectData?.edges}
           onUpdateJson={handleUpdateJson}
           onOpenJson={setJsonInputModalOpen}
           openJson={jsonInputModalOpen}
@@ -100,7 +67,7 @@ export default function Home() {
           }}
         >
           <textarea
-            value={jsonData}
+            value={jsonData || "[]"}
             rows={15}
             style={{
               width: "100%",
@@ -119,7 +86,7 @@ export default function Home() {
             }}
           >
             <JsonViewerComponent
-              object={JSON.parse(jsonData)}
+              object={objectData}
               theme={jsonViewerTheme}
             />
           </div>
@@ -186,7 +153,7 @@ export default function Home() {
               <input
                 type="file"
                 accept=".json"
-                onChange={hanleImportJson}
+                onChange={handleImportJson}
                 hidden
               />
             </label>
