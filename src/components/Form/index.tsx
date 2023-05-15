@@ -1,48 +1,69 @@
-import React, { useMemo } from "react";
-import { Form as FomikForm, Formik, FormikProps } from "formik";
+import React, { useCallback, useState } from "react";
 import Field from "@/components/Field";
+import useObjectToArrayConverterWithSorting from "@/hooks/useObjectToArrayConverterWithSorting";
+import useMiddleBindingProps from "@/hooks/useMiddleBindingProps";
 
 interface FormProps {
   title: string;
-  initialValues: any;
+  values: any;
   validate: any;
   model: any;
   onSubmit: any;
   getOptions?: any;
   dataSelected?: any;
+  onUpdateForm?: any;
+  onRelatedUpdate?: any;
+  onErrorUpdate?: any;
 }
 
 const Form = (props: FormProps) => {
   const {
     title,
-    initialValues = {},
-    validate = (values: any) => {
-      return true;
-    },
+    validate,
     model = {},
     onSubmit,
     getOptions = {},
     dataSelected,
+    onUpdateForm,
+    onRelatedUpdate,
+    values,
+    onErrorUpdate,
   } = props;
 
-  const passedDataGetOptions = useMemo(() => {
-    return Object.keys(getOptions).reduce((prev: any, current: string) => {
-      return {
-        ...prev,
-        [current]: getOptions[current](dataSelected),
-      };
-    }, {});
-  }, [getOptions]);
+  const [isSubmitting, setIsSbumitting] = useState(false);
+  const [fields] = useObjectToArrayConverterWithSorting(model, "priority");
+  const [passedDataGetOptions] = useMiddleBindingProps(
+    getOptions,
+    dataSelected
+  );
 
-  const fields = useMemo(
-    () =>
-      Object.keys(model)
-        .map((key) => ({
-          ...model[key],
-          name: key,
-        }))
-        .sort((a, b) => (a.priority || 1) - (b.priority || 1)),
-    [model]
+  const handleSubmit = useCallback(async () => {
+    setIsSbumitting(true);
+    try {
+      //put validate form here (before submit)
+      await (onSubmit && onSubmit());
+    } catch (error) {
+    } finally {
+      setIsSbumitting(false);
+    }
+  }, [onSubmit]);
+
+  const handleUpdateFormValue = useCallback(
+    (field: any, newValue: any) => {
+      if (!field.name) return;
+      onUpdateForm && onUpdateForm(field.name, newValue);
+      field.relatedFields &&
+        onRelatedUpdate &&
+        onRelatedUpdate(field.relatedFields, field.name, newValue);
+    },
+    [onUpdateForm, onRelatedUpdate]
+  );
+
+  const handleError = useCallback(
+    (name: string, error: any) => {
+      onErrorUpdate && onErrorUpdate(name, error);
+    },
+    [onErrorUpdate]
   );
 
   return (
@@ -65,61 +86,50 @@ const Form = (props: FormProps) => {
       >
         <h1 style={{ fontWeight: 700, textTransform: "uppercase" }}>{title}</h1>
       </div>
-      <Formik
-        initialValues={initialValues}
-        validate={validate}
-        validateOnChange={false}
-        enableReinitialize
-        onSubmit={async (values, actions) => {
-          try {
-            await (onSubmit && onSubmit(values));
-          } catch (error) {
-          } finally {
-            actions.setSubmitting(false);
-          }
-        }}
-      >
-        {(props: FormikProps<any>) => (
-          <FomikForm>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "16px",
-              }}
-            >
-              {fields.map((item) => {
-                return (
-                  <Field
-                    key={`item-${item.priority}-${item.id}`}
-                    item={item}
-                    getOptions={passedDataGetOptions}
-                  />
-                );
-              })}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                width: "100%",
-                padding: "8px 0",
-              }}
-            >
-              <button
-                type="submit"
-                disabled={props.isSubmitting}
-                style={{
-                  background: "steelblue",
-                  padding: "8px",
-                }}
-              >
-                Save
-              </button>
-            </div>
-          </FomikForm>
-        )}
-      </Formik>
+      <form>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "16px",
+          }}
+        >
+          {fields.map((item) => {
+            return (
+              <Field
+                key={`item-${item.priority}-${item.id}`}
+                item={item}
+                getOptions={passedDataGetOptions}
+                setFormValue={handleUpdateFormValue}
+                errors={{}}
+                values={values}
+                validate={validate}
+                setErrors={handleError}
+              />
+            );
+          })}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            padding: "8px 0",
+          }}
+        >
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            style={{
+              background: "steelblue",
+              padding: "8px",
+            }}
+            onClick={handleSubmit}
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
