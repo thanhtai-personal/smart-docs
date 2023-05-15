@@ -4,6 +4,7 @@ const useFormInModalLogic = (props: any) => {
   const { mappingSubmitData, initialData, onSubmit } = props;
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (initialData) {
@@ -11,11 +12,26 @@ const useFormInModalLogic = (props: any) => {
     }
   }, [initialData]);
 
-  const handleUpdateData = useCallback(() => {}, []);
+  const handleUpdateData = useCallback((name: string, value: any) => {
+    if (!name) return;
+    setValues((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []);
 
-  const handleUpdateRelatedFields = useCallback(() => {}, []);
+  const handleUpdateRelatedFields = useCallback((item: any, newValue: any) => {
+    if (!item.updateRelatedFields) return
+    item.updateRelatedFields(newValue, errors);
+  }, []);
 
-  const handleUpdateErrors = useCallback(() => {}, []);
+  const handleUpdateErrors = useCallback((name: string, error: any) => {
+    if (!name) return;
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error
+    }));
+  }, []);
 
   const handleCloseModal = useCallback(() => {
     setIsOpenModal(false);
@@ -30,12 +46,13 @@ const useFormInModalLogic = (props: any) => {
   const handleSubmit = useCallback(() => {
     const dataSubmit = mappingSubmitData ? mappingSubmitData(values) : values;
     onSubmit && onSubmit(dataSubmit);
-  }, []);
+  }, [values, onSubmit]);
 
   return [
     {
       isOpenModal,
-      values
+      values,
+      errors
     },
     {
       handleUpdateData,

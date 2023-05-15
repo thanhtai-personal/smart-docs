@@ -6,6 +6,7 @@ import useMiddleBindingProps from "@/hooks/useMiddleBindingProps";
 interface FormProps {
   title: string;
   values: any;
+  errors: any;
   validate: any;
   model: any;
   onSubmit: any;
@@ -27,6 +28,7 @@ const Form = (props: FormProps) => {
     onUpdateForm,
     onRelatedUpdate,
     values,
+    errors,
     onErrorUpdate,
   } = props;
 
@@ -101,7 +103,7 @@ const Form = (props: FormProps) => {
                 item={item}
                 getOptions={passedDataGetOptions}
                 setFormValue={handleUpdateFormValue}
-                errors={{}}
+                errors={errors}
                 values={values}
                 validate={validate}
                 setErrors={handleError}

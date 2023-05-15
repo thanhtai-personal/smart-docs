@@ -1,9 +1,8 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
   Background,
-  MarkerType,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import {
@@ -47,6 +46,14 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     ref: ref,
   });
 
+  const mappingNodeSubmitData = useMemo(() => {
+    return nodeTypesMapping[nodeType].mappingSubmitData ? nodeTypesMapping[nodeType].mappingSubmitData : ((values: any) => values)
+  }, [nodeType])
+
+  const mappingEdgeSubmitData = useMemo(() => {
+    return edgeTypesMapping[edgeType].mappingSubmitData ? edgeTypesMapping[edgeType].mappingSubmitData : ((values: any) => values)
+  }, [edgeType])
+
   const [nodeFormData, nodeFormEvents] = useFormInModalLogic({
     formData: {
       nodes,
@@ -61,17 +68,16 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         });
       }, 0);
     },
-    onSubmit: (values: any) => {
-      nodeTypesMapping[nodeType].onSubmit(values, async (nodeData: any) => {
-        await onUpdateJson({
-          nodes: [..._nodes, nodeData],
-          edges: _edges,
-        });
-      });
+    onSubmit: (newNode: any) => {
+      onUpdateJson({
+        edges: edges,
+        nodes: [...(nodes || []), newNode],
+      })
     },
     onOpenModal: () => {
       edgeFormEvents && edgeFormEvents.handleCloseModal && edgeFormEvents.handleCloseModal();
     },
+    mappingSubmitData: mappingNodeSubmitData
   });
 
   const [edgeFormData, edgeFormEvents] = useFormInModalLogic({
@@ -82,19 +88,17 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     onUpdateFormData: (changes: Array<any>) => {
       onEdgesChange && onEdgesChange(changes);
     },
-    onSubmit: (values: any) => {
-      nodeTypesMapping[nodeType].onSubmit(values, async (nodeData: any) => {
-        await onUpdateJson({
-          nodes: [..._nodes, nodeData],
-          edges: _edges,
-        });
-      });
+    onSubmit: (newEdge: any) => {
+      onUpdateJson({
+        nodes: nodes,
+        edges: [...(edges || []), newEdge],
+      })
     },
     onOpenModal: () => {
       nodeFormEvents && nodeFormEvents.handleCloseModal && nodeFormEvents.handleCloseModal();
     },
+    mappingSubmitData: mappingEdgeSubmitData
   });
-
 
   return (
     <>
@@ -147,6 +151,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
           model={nodeTypesMapping[nodeType].model}
           onSubmit={nodeFormEvents.handleSubmit}
           getOptions={nodeTypesMapping[nodeType].getOptions}
+          errors={nodeFormData.errors}
           dataSelected={{
             nodes,
             edges,
@@ -171,6 +176,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
           model={edgeTypesMapping[edgeType].model}
           onSubmit={edgeFormEvents.handleSubmit}
           getOptions={edgeTypesMapping[edgeType].getOptions}
+          errors={edgeFormData.errors}
           dataSelected={{
             nodes,
             edges,

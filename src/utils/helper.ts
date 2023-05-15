@@ -17,45 +17,44 @@ export const makeNodeTypeMappingItem = ({
   model: model,
   getOptions,
   validate: (values: any) => !!values.id,
-  getInitialValues: getInitialValues || ((nodeData: any) => ({
-    id: nodeData.id || "",
-    label: nodeData.label || "",
-    targetPosition: nodeData.targetPosition || POSITION.TOP,
-    sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-    parentNode: nodeData.parentNode || "",
-    selectable: nodeData.selectable || true,
-    zIndex: nodeData.zIndex || 0,
-    style: nodeData.style || "",
-  })),
-  onSubmit: (values: any, addNodeFuntion: Function) => {
-    addNodeFuntion &&
-      addNodeFuntion({
-        id: values.id,
-        type: type,
-        data: {
-          label: values.label,
-        },
-        className: values.className,
-        parentNode: values.parentNode,
-        targetPosition: values.targetPosition,
-        sourcePosition: values.sourcePosition,
-        selectable: values.selectable,
-        zIndex: values.zIndex,
-        style: values.style,
-        position: {
-          x: 40,
-          y: 40,
-        },
-        selected: false,
-        positionAbsolute: {
-          x: 40,
-          y: 40,
-        },
-        dragging: false,
-        width: 350,
-        height: 350,
-      });
-  },
+  getInitialValues:
+    getInitialValues ||
+    ((nodeData: any) => ({
+      id: nodeData.id || "",
+      label: nodeData.label || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    })),
+  mappingSubmitData: (values: any) => ({
+    id: values.id,
+    type: type,
+    data: {
+      label: values.label,
+    },
+    className: values.className,
+    parentNode: values.parentNode,
+    targetPosition: values.targetPosition,
+    sourcePosition: values.sourcePosition,
+    selectable: values.selectable,
+    zIndex: values.zIndex,
+    style: values.style,
+    position: {
+      x: 40,
+      y: 40,
+    },
+    selected: false,
+    positionAbsolute: {
+      x: 40,
+      y: 40,
+    },
+    dragging: false,
+    width: 350,
+    height: 350,
+  }),
 });
 
 export const makeEdgeMappingItem = ({
@@ -87,22 +86,19 @@ export const makeEdgeMappingItem = ({
     className: edgeData.className || "",
     label: edgeData.label || "",
   }),
-  onSubmit: (values: any, addEdgeFunction: Function) => {
-    addEdgeFunction &&
-      addEdgeFunction({
-        id: values.id,
-        source: values.source,
-        target: values.target,
-        sourceHandle: values.sourceHandle,
-        type: edgeType,
-        animated: values.animated,
-        style: values.style,
-        className: values.className,
-        label: values.label,
-        markerStart: values.markerStart,
-        markerEnd: values.markerEnd,
-      });
-  },
+  mappingSubmitData: (values: any) => ({
+    id: values.id,
+    source: values.source,
+    target: values.target,
+    sourceHandle: values.sourceHandle,
+    type: edgeType,
+    animated: values.animated,
+    style: values.style,
+    className: values.className,
+    label: values.label,
+    markerStart: values.markerStart,
+    markerEnd: values.markerEnd,
+  }),
 });
 
 export const handleImportFile = (event: any, fileType: string, onLoadFunc: Function) => {

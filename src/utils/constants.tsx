@@ -99,34 +99,31 @@ export const nodeTypesMapping: any = {
     }),
     validate: (values: any) => !!values.id,
     model: ExpandFrameNodeCreateModel,
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "expandFrame",
-          data: {
-            label: values.label,
-            content: values.content,
-          },
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: true,
-          width: 267,
-          height: 159,
-        });
-    },
+    mappingSubmitData: (values: any) => ({
+      id: values.id,
+      type: "expandFrame",
+      data: {
+        label: values.label,
+        content: values.content,
+      },
+      targetPosition: values.targetPosition,
+      sourcePosition: values.sourcePosition,
+      selectable: values.selectable,
+      zIndex: values.zIndex,
+      style: values.style,
+      position: {
+        x: 40,
+        y: 40,
+      },
+      selected: false,
+      positionAbsolute: {
+        x: 40,
+        y: 40,
+      },
+      dragging: true,
+      width: 267,
+      height: 159,
+    })
   },
   mediaCard: {
     component: MediaCardNode,
@@ -136,7 +133,6 @@ export const nodeTypesMapping: any = {
       parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id }))
     },
     getInitialValues: (nodeData: any) => {
-      console.log("nodeData", nodeData)
       return ({
         id: nodeData.id || "",
         label: nodeData.data?.label || "",
@@ -151,37 +147,34 @@ export const nodeTypesMapping: any = {
     },
     validate: (values: any) => !!values.id,
     model: MediaCardNodeCreateModel,
-    onSubmit: (values: any, addNodeFuntion: Function) => {
-      addNodeFuntion &&
-        addNodeFuntion({
-          id: values.id,
-          type: "mediaCard",
-          data: {
-            label: values.label,
-            content: "",
-            images: [],
-            videos: [],
-            mdContent: values.mdContent,
-          },
-          targetPosition: values.targetPosition,
-          sourcePosition: values.sourcePosition,
-          selectable: values.selectable,
-          zIndex: values.zIndex,
-          style: values.style,
-          position: {
-            x: 40,
-            y: 40,
-          },
-          selected: false,
-          positionAbsolute: {
-            x: 40,
-            y: 40,
-          },
-          dragging: false,
-          width: 350,
-          height: 350,
-        });
-    },
+    mappingSubmitData: (values: any) => ({
+      id: values.id,
+      type: "mediaCard",
+      data: {
+        label: values.label,
+        content: "",
+        images: [],
+        videos: [],
+        mdContent: values.mdContent,
+      },
+      targetPosition: values.targetPosition,
+      sourcePosition: values.sourcePosition,
+      selectable: values.selectable,
+      zIndex: values.zIndex,
+      style: values.style,
+      position: {
+        x: 40,
+        y: 40,
+      },
+      selected: false,
+      positionAbsolute: {
+        x: 40,
+        y: 40,
+      },
+      dragging: false,
+      width: 350,
+      height: 350,
+    })
   },
 };
 
