@@ -27,7 +27,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   const {
     nodes: _nodes,
     edges: _edges,
-    onUpdateJson = () => {},
+    onUpdateJson,
     onOpenJson,
     openJson,
   } = props;
@@ -61,16 +61,14 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     },
     onUpdateFormData: (changes: Array<any>) => {
       onNodesChange && onNodesChange(changes);
-      setTimeout(() => {
-        onUpdateJson({
-          nodes,
-          edges,
-        });
-      }, 0);
+      onUpdateJson({
+        nodes,
+        edges,
+      });
     },
     onSubmit: (newNode: any) => {
       onUpdateJson({
-        edges: edges,
+        edges: edges || [],
         nodes: [...(nodes || []), newNode],
       })
     },
@@ -89,8 +87,8 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       onEdgesChange && onEdgesChange(changes);
     },
     onSubmit: (newEdge: any) => {
-      onUpdateJson({
-        nodes: nodes,
+      onUpdateJson && onUpdateJson({
+        nodes: (nodes || []),
         edges: [...(edges || []), newEdge],
       })
     },

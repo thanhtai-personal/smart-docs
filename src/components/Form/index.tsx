@@ -45,6 +45,7 @@ const Form = (props: FormProps) => {
       //put validate form here (before submit)
       await (onSubmit && onSubmit());
     } catch (error) {
+      console.log("error", error)
     } finally {
       setIsSbumitting(false);
     }

@@ -35,6 +35,7 @@ const Field = (props: FieldProps) => {
       }
       setFormValue && setFormValue(item, newValue);
     } catch (error: any) {
+      console.log("error", error)
       if (error && error.message === "validated error") {
         setErrors && setErrors(item.name, { validated: false, touched: true });
       }
