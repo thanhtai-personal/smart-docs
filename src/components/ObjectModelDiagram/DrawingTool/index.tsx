@@ -3,7 +3,7 @@ import {
   NODE_TYPE,
   edgeTypesMapping,
   nodeTypesMapping,
-} from "@/utils/constants";
+} from "app/utils/constants";
 import React, { useMemo, useState } from "react";
 
 interface DrawingToolProps {

@@ -1,8 +1,8 @@
-import Input from "@/components/Input";
-import InputArea from "@/components/InputArea";
-import InputNumber from "@/components/InputNumber";
-import RadioCheckbox from "@/components/RadioCheckbox";
-import Select from "@/components/Select";
+import Input from "app/components/Input";
+import InputArea from "app/components/InputArea";
+import InputNumber from "app/components/InputNumber";
+import RadioCheckbox from "app/components/RadioCheckbox";
+import Select from "app/components/Select";
 
 const mediaCardModel = {
   id: {

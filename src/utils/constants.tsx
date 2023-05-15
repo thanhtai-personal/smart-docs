@@ -1,15 +1,15 @@
-import ExpandFrameNode from "@/components/ObjectModelDiagram/CustomNode/ExpandFrameNode";
-import MediaCardNode from "@/components/ObjectModelDiagram/CustomNode/MediaCardNode";
-import ExpandFrameNodeCreateModel from "@/components/ObjectModelDiagram/CustomNode/ExpandFrameNode/models/create";
-import MediaCardNodeCreateModel from "@/components/ObjectModelDiagram/CustomNode/MediaCardNode/models/create";
+import ExpandFrameNode from "app/components/ObjectModelDiagram/CustomNode/ExpandFrameNode";
+import MediaCardNode from "app/components/ObjectModelDiagram/CustomNode/MediaCardNode";
+import ExpandFrameNodeCreateModel from "app/components/ObjectModelDiagram/CustomNode/ExpandFrameNode/models/create";
+import MediaCardNodeCreateModel from "app/components/ObjectModelDiagram/CustomNode/MediaCardNode/models/create";
 import { NamedColorspace } from "@textea/json-viewer";
-import InputModel from "@/components/ObjectModelDiagram/DefaultNode/Input/models/create";
-import OutputModel from "@/components/ObjectModelDiagram/DefaultNode/Output/models/create";
-import DefaultModel from "@/components/ObjectModelDiagram/DefaultNode/Default/models/create";
-import DefaultEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/Default/models/create";
-import SmoothStepEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/SmoothStep/models/create";
-import StepEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/StepEdge/models/create";
-import StraightEdgeModel from "@/components/ObjectModelDiagram/DefaultEdge/StraightEdge/models/create";
+import InputModel from "app/components/ObjectModelDiagram/DefaultNode/Input/models/create";
+import OutputModel from "app/components/ObjectModelDiagram/DefaultNode/Output/models/create";
+import DefaultModel from "app/components/ObjectModelDiagram/DefaultNode/Default/models/create";
+import DefaultEdgeModel from "app/components/ObjectModelDiagram/DefaultEdge/Default/models/create";
+import SmoothStepEdgeModel from "app/components/ObjectModelDiagram/DefaultEdge/SmoothStep/models/create";
+import StepEdgeModel from "app/components/ObjectModelDiagram/DefaultEdge/StepEdge/models/create";
+import StraightEdgeModel from "app/components/ObjectModelDiagram/DefaultEdge/StraightEdge/models/create";
 import {
   makeEdgeMappingItem,
   makeNodeTypeMappingItem,
@@ -54,9 +54,15 @@ export const nodeTypesMapping: any = {
     model: DefaultModel,
     type: NODE_TYPE.DEFAULT,
     getOptions: {
-      parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      className: (dataSelected: any) => () => (dataSelected.supportedNodeClassname || []),
-    }
+      parentNode: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedNodeClassname || [],
+    },
   }),
   input: makeNodeTypeMappingItem({
     name: "Input",
@@ -64,9 +70,15 @@ export const nodeTypesMapping: any = {
     model: InputModel,
     type: NODE_TYPE.INPUT,
     getOptions: {
-      parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      className: (dataSelected: any) => () => (dataSelected.supportedNodeClassname || []),
-    }
+      parentNode: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedNodeClassname || [],
+    },
   }),
   outPut: makeNodeTypeMappingItem({
     name: "Output",
@@ -74,16 +86,27 @@ export const nodeTypesMapping: any = {
     model: OutputModel,
     type: NODE_TYPE.OUTPUT,
     getOptions: {
-      parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      className: (dataSelected: any) => () => (dataSelected.supportedNodeClassname || []),
-    }
+      parentNode: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedNodeClassname || [],
+    },
   }),
   expandFrame: {
     component: ExpandFrameNode,
     name: "Expandable",
     createTitle: "Create expandable node",
     getOptions: {
-      parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id }))
+      parentNode: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
     },
     getInitialValues: (nodeData: any) => ({
       id: nodeData.id || "",
@@ -123,17 +146,22 @@ export const nodeTypesMapping: any = {
       dragging: true,
       width: 267,
       height: 159,
-    })
+    }),
   },
   mediaCard: {
     component: MediaCardNode,
     name: "Media card",
     createTitle: "Media card node",
     getOptions: {
-      parentNode: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id }))
+      parentNode: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
     },
     getInitialValues: (nodeData: any) => {
-      return ({
+      return {
         id: nodeData.id || "",
         label: nodeData.data?.label || "",
         mdContent: nodeData.data?.mdContent || "",
@@ -143,7 +171,7 @@ export const nodeTypesMapping: any = {
         selectable: nodeData.selectable || true,
         zIndex: nodeData.zIndex || 0,
         style: nodeData.style || "",
-      })
+      };
     },
     validate: (values: any) => !!values.id,
     model: MediaCardNodeCreateModel,
@@ -174,7 +202,7 @@ export const nodeTypesMapping: any = {
       dragging: false,
       width: 350,
       height: 350,
-    })
+    }),
   },
 };
 
@@ -185,13 +213,29 @@ export const edgeTypesMapping: any = {
     model: DefaultEdgeModel,
     edgeType: EDGE_TYPE.DEFAULT,
     getOptions: {
-      source: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      target: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      sourceHandle: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      markerStart: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      markerEnd: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      className: (dataSelected: any) => () => (dataSelected.supportedEdgeClassname || []),
-    }
+      source: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      target: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      sourceHandle: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      markerStart: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      markerEnd: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedEdgeClassname || [],
+    },
   }),
   smoothStep: makeEdgeMappingItem({
     name: "Smooth step",
@@ -199,13 +243,29 @@ export const edgeTypesMapping: any = {
     model: SmoothStepEdgeModel,
     edgeType: EDGE_TYPE.SMOOTHSTEP,
     getOptions: {
-      source: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      target: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      sourceHandle: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      markerStart: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      markerEnd: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      className: (dataSelected: any) => () => (dataSelected.supportedEdgeClassname || []),
-    }
+      source: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      target: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      sourceHandle: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      markerStart: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      markerEnd: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedEdgeClassname || [],
+    },
   }),
   step: makeEdgeMappingItem({
     name: "Step",
@@ -213,13 +273,29 @@ export const edgeTypesMapping: any = {
     model: StepEdgeModel,
     edgeType: EDGE_TYPE.STEP,
     getOptions: {
-      source: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      target: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      sourceHandle: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      markerStart: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      markerEnd: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      className: (dataSelected: any) => () => (dataSelected.supportedEdgeClassname || []),
-    }
+      source: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      target: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      sourceHandle: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      markerStart: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      markerEnd: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedEdgeClassname || [],
+    },
   }),
   straight: makeEdgeMappingItem({
     name: "Straight",
@@ -227,13 +303,29 @@ export const edgeTypesMapping: any = {
     model: StraightEdgeModel,
     edgeType: EDGE_TYPE.STRAIGHT,
     getOptions: {
-      source: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      target: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      sourceHandle: (dataSelected: any) => () => (dataSelected.nodes || []).map((n: any) => ({ key: n.id, value: n.id, label: n.name || n.id })),
-      markerStart: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      markerEnd: (dataSelected: any) => () => (dataSelected.markerTypes || []),
-      className: (dataSelected: any) => () => (dataSelected.supportedEdgeClassname || []),
-    }
+      source: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      target: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      sourceHandle: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+      markerStart: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      markerEnd: (dataSelected: any) => () => dataSelected.markerTypes || [],
+      className: (dataSelected: any) => () =>
+        dataSelected.supportedEdgeClassname || [],
+    },
   }),
 };
 

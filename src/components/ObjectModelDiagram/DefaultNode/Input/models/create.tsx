@@ -1,9 +1,9 @@
-import Input from "@/components/Input";
-import InputNumber from "@/components/InputNumber";
-import RadioCheckbox from "@/components/RadioCheckbox";
-import Select from "@/components/Select";
-import TabSelector from "@/components/TabSelecter";
-import { positionOptions } from "@/utils/constants";
+import Input from "app/components/Input";
+import InputNumber from "app/components/InputNumber";
+import RadioCheckbox from "app/components/RadioCheckbox";
+import Select from "app/components/Select";
+import TabSelector from "app/components/TabSelecter";
+import { positionOptions } from "app/utils/constants";
 
 const DefaultModel = {
   id: {

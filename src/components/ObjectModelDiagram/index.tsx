@@ -1,23 +1,19 @@
 import React, { forwardRef, useMemo, useState } from "react";
-import ReactFlow, {
-  MiniMap,
-  Controls,
-  Background,
-} from "reactflow";
+import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
 import {
   nodeTypes,
   nodeTypesMapping,
   edgeTypes,
   edgeTypesMapping,
-} from "@/utils/constants";
+} from "app/utils/constants";
 import DrawingTool from "./DrawingTool";
 import ReactModal from "../Modal";
 import Form from "../Form";
-import { NODE_TYPE } from "@/utils/constants";
-import { EDGE_TYPE } from "@/utils/constants";
-import useInitialReactFlow from "@/hooks/useInitialReactFlow";
-import useFormInModalLogic from "@/hooks/useFormInModalLogic";
+import { NODE_TYPE } from "app/utils/constants";
+import { EDGE_TYPE } from "app/utils/constants";
+import useInitialReactFlow from "app/hooks/useInitialReactFlow";
+import useFormInModalLogic from "app/hooks/useFormInModalLogic";
 
 const minimapStyle = {
   height: 120,
@@ -47,17 +43,21 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
   });
 
   const mappingNodeSubmitData = useMemo(() => {
-    return nodeTypesMapping[nodeType].mappingSubmitData ? nodeTypesMapping[nodeType].mappingSubmitData : ((values: any) => values)
-  }, [nodeType])
+    return nodeTypesMapping[nodeType].mappingSubmitData
+      ? nodeTypesMapping[nodeType].mappingSubmitData
+      : (values: any) => values;
+  }, [nodeType]);
 
   const mappingEdgeSubmitData = useMemo(() => {
-    return edgeTypesMapping[edgeType].mappingSubmitData ? edgeTypesMapping[edgeType].mappingSubmitData : ((values: any) => values)
-  }, [edgeType])
+    return edgeTypesMapping[edgeType].mappingSubmitData
+      ? edgeTypesMapping[edgeType].mappingSubmitData
+      : (values: any) => values;
+  }, [edgeType]);
 
   const [nodeFormData, nodeFormEvents] = useFormInModalLogic({
     formData: {
       nodes,
-      edges
+      edges,
     },
     onUpdateFormData: (changes: Array<any>) => {
       onNodesChange && onNodesChange(changes);
@@ -70,32 +70,37 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
       onUpdateJson({
         edges: edges || [],
         nodes: [...(nodes || []), newNode],
-      })
+      });
     },
     onOpenModal: () => {
-      edgeFormEvents && edgeFormEvents.handleCloseModal && edgeFormEvents.handleCloseModal();
+      edgeFormEvents &&
+        edgeFormEvents.handleCloseModal &&
+        edgeFormEvents.handleCloseModal();
     },
-    mappingSubmitData: mappingNodeSubmitData
+    mappingSubmitData: mappingNodeSubmitData,
   });
 
   const [edgeFormData, edgeFormEvents] = useFormInModalLogic({
     formData: {
       nodes: _nodes,
-      edges: _edges
+      edges: _edges,
     },
     onUpdateFormData: (changes: Array<any>) => {
       onEdgesChange && onEdgesChange(changes);
     },
     onSubmit: (newEdge: any) => {
-      onUpdateJson && onUpdateJson({
-        nodes: (nodes || []),
-        edges: [...(edges || []), newEdge],
-      })
+      onUpdateJson &&
+        onUpdateJson({
+          nodes: nodes || [],
+          edges: [...(edges || []), newEdge],
+        });
     },
     onOpenModal: () => {
-      nodeFormEvents && nodeFormEvents.handleCloseModal && nodeFormEvents.handleCloseModal();
+      nodeFormEvents &&
+        nodeFormEvents.handleCloseModal &&
+        nodeFormEvents.handleCloseModal();
     },
-    mappingSubmitData: mappingEdgeSubmitData
+    mappingSubmitData: mappingEdgeSubmitData,
   });
 
   return (
@@ -107,7 +112,8 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         }}
         editNode={(item: any) => {
           setNodeType(item.type);
-          nodeFormEvents.handleOpenModal && nodeFormEvents.handleOpenModal(item);
+          nodeFormEvents.handleOpenModal &&
+            nodeFormEvents.handleOpenModal(item);
         }}
         addEdge={(type: string) => {
           setEdgeType(type);
@@ -115,7 +121,8 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         }}
         editEdge={(item: any) => {
           setEdgeType(item.type);
-          edgeFormEvents.handleOpenModal && edgeFormEvents.handleOpenModal(item);
+          edgeFormEvents.handleOpenModal &&
+            edgeFormEvents.handleOpenModal(item);
         }}
         openJson={openJson}
         onOpenJson={onOpenJson}
@@ -141,7 +148,10 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         <Controls />
         <Background color="#000" gap={16} />
       </ReactFlow>
-      <ReactModal isOpen={nodeFormData.isOpenModal} onClose={nodeFormEvents.handleCloseModal}>
+      <ReactModal
+        isOpen={nodeFormData.isOpenModal}
+        onClose={nodeFormEvents.handleCloseModal}
+      >
         <Form
           title={nodeTypesMapping[nodeType].createTitle}
           values={nodeFormData.values}
@@ -166,7 +176,10 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
           onErrorUpdate={nodeFormEvents.handleUpdateErrors}
         />
       </ReactModal>
-      <ReactModal isOpen={edgeFormData.isOpenModal} onClose={edgeFormEvents.handleCloseModal}>
+      <ReactModal
+        isOpen={edgeFormData.isOpenModal}
+        onClose={edgeFormEvents.handleCloseModal}
+      >
         <Form
           title={edgeTypesMapping[edgeType].createTitle}
           values={edgeFormData.values}

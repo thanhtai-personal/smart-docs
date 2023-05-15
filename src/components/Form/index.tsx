@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
-import Field from "@/components/Field";
-import useObjectToArrayConverterWithSorting from "@/hooks/useObjectToArrayConverterWithSorting";
-import useMiddleBindingProps from "@/hooks/useMiddleBindingProps";
+import Field from "app/components/Field";
+import useObjectToArrayConverterWithSorting from "app/hooks/useObjectToArrayConverterWithSorting";
+import useMiddleBindingProps from "app/hooks/useMiddleBindingProps";
 
 interface FormProps {
   title: string;
@@ -45,7 +45,7 @@ const Form = (props: FormProps) => {
       //put validate form here (before submit)
       await (onSubmit && onSubmit());
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     } finally {
       setIsSbumitting(false);
     }

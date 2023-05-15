@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import store from "@/stateManager/store";
+import store from "app/stateManager/store";
 
 const useSelector = (
   selector: Function = (state: any) => state,
