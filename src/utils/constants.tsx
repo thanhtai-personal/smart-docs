@@ -215,18 +215,18 @@ export const nodeTypesMapping: any = {
       width: 350,
       height: 350,
     }),
-  },
-  mappingInitialValues: (node: any) => {
-    return ({
-      id: node.id,
-      label: node.data?.label,
-      mdContent: node.data?.mdContent || "",
-      targetPosition: node.targetPosition,
-      sourcePosition: node.sourcePosition,
-      selectable: node.selectable,
-      zIndex: node.zIndex,
-      style: node.style,
-    })
+    mappingInitialValues: (node: any) => {
+      return ({
+        id: node.id,
+        label: node.data?.label,
+        mdContent: node.data?.mdContent || "",
+        targetPosition: node.targetPosition,
+        sourcePosition: node.sourcePosition,
+        selectable: node.selectable,
+        zIndex: node.zIndex,
+        style: node.style,
+      })
+    }
   }
 };
 
