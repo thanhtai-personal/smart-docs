@@ -89,15 +89,15 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     selectedNode && editNode && editNode(selectedNode);
     selectedEdge && editEdge && editEdge(selectedEdge);
   };
-
-  const openEditTool = useMemo(
+  
+  const selectedItem = useMemo(
     () =>
       nodes.find((_node: any) => _node.selected) ||
       edges.find((_edge: any) => _edge.selected),
     [nodes, edges]
   );
 
-  useActionHotkey(openEditTool, {
+  useActionHotkey(selectedItem, {
     onDelete: handleDeleteSeleted,
     onEdit: handleOpenEdit
   })
@@ -166,7 +166,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           </button>
         </div>
       </div>
-      {openEditTool && (
+      {selectedItem && (
         <div
           style={{
             display: "flex",

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-const useModalHotkey = (selectedItem: any, events: any) => {
+const useActionHotkey = (selectedItem: any, events: any) => {
   const { onDelete, onEdit } = events;
 
   const handleKeyDown = useCallback(
@@ -24,4 +24,4 @@ const useModalHotkey = (selectedItem: any, events: any) => {
   }, [selectedItem]);
 };
 
-export default useModalHotkey;
+export default useActionHotkey;

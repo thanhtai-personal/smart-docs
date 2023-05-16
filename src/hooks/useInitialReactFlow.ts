@@ -59,7 +59,7 @@ const useInitialReactFlow = (props: any) => {
   };
 
   const handleEdgeChanges = (changes: Array<any>) => {
-    onNodesChange(changes);
+    onEdgesChange(changes);
     onChange &&
       onChange({
         nodes: _nodes,
