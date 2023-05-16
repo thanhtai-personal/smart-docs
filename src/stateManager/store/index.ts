@@ -40,7 +40,7 @@ const createStore = (reducer: any, initialState: any, enhancer: any) => {
   };
 };
 
-const compose = (...funcs) => {
+const compose = <T>(...funcs: ((arg: T) => T)[]): ((arg: T) => T) => {
   if (funcs.length === 0) {
     return (arg: any) => arg;
   }
@@ -57,7 +57,7 @@ const compose = (...funcs) => {
 };
 
 const applyMiddleware =
-  (...middlewares) =>
+  (...middlewares: any[]) =>
   (createStore: any) =>
   (reducer: any, initialState: any) => {
     const store = createStore(reducer, initialState);
