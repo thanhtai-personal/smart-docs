@@ -10,6 +10,13 @@ const useModalHotkey = (state: any, setState: any) => {
         open: !prev.open
       }))
     }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setState((prev: any) => ({
+        ...prev,
+        open: false
+      }))
+    }
   };
 
   useEffect(() => {

@@ -193,15 +193,15 @@ export default function Home() {
     updateJsonData(JSON.stringify(data));
   };
 
-  const configJsonEditorModal = useCallback(() => {
+  const handleOpenJsonEditorModal = useCallback(() => {
     AppModalInstance.replaceChildren(JSONEditorModal);
     AppModalInstance.updateChildrenProps({
       jsonData, objectData, updateJsonData
     })
+    AppModalInstance.open();
   }, [jsonData, objectData, updateJsonData])
 
   useEffect(() => {
-    configJsonEditorModal();
     setLoadingPage(true);
     setTimeout(() => {
       setLoadingPage(false);
@@ -231,6 +231,7 @@ export default function Home() {
             nodes={objectData?.nodes}
             edges={objectData?.edges}
             onUpdateJson={handleUpdateJson}
+            onOpenJsonEditorModal={handleOpenJsonEditorModal}
           />
         </div>
         <ReactModal

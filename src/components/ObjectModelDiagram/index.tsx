@@ -22,6 +22,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     nodes: _nodes,
     edges: _edges,
     onUpdateJson,
+    onOpenJsonEditorModal,
   } = props;
   const [nodeType, setNodeType] = useState(NODE_TYPE.EXPAND_FRAME as string);
   const [edgeType, setEdgeType] = useState(EDGE_TYPE.DEFAULT as string);
@@ -86,6 +87,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
         edges={edges || []}
         setNodes={setNodes}
         setEdges={setEdges}
+        onOpenJsonEditorModal={onOpenJsonEditorModal}
       />
       <ReactFlow
         nodes={nodes || []}

@@ -4,7 +4,8 @@ import { edgeTypesMapping } from "app/utils/constants";
 import { memo, useMemo } from "react";
 
 const EdgeForm = (props: any) => {
-  const [edgeType, nodes, edges, onUpdateJson, onEdgesChange, initialValues] = props;
+  const { edgeType, nodes, edges, onUpdateJson, onEdgesChange, initialValues } =
+    props;
 
   const mappingEdgeSubmitData = useMemo(() => {
     return edgeTypesMapping[edgeType].mappingSubmitData

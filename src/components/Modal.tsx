@@ -24,7 +24,7 @@ const ReactModal: ForwardRefRenderFunction<any, any> = (
 ) => {
   const [state, setState] = useState({
     isLoading: false as boolean,
-    childrenComponent: () => "" as any,
+    childrenComponent: (_props: any) => "" as any,
     childrenProps: {} as any,
     modalProps: {} as any,
     open: false as boolean,
@@ -108,7 +108,7 @@ const ReactModal: ForwardRefRenderFunction<any, any> = (
       >
         <i className="fa-sharp fa-solid fa-xmark"></i>
       </div>
-      {<state.childrenComponent {...state.childrenProps} />}
+      {<state.childrenComponent {...(state.childrenProps || {})} />}
     </Modal>
   );
 };

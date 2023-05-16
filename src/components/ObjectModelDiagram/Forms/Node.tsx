@@ -4,7 +4,8 @@ import { nodeTypesMapping } from "app/utils/constants";
 import { memo, useMemo } from "react";
 
 const NodeForm = (props: any) => {
-  const [nodeType, nodes, edges, onUpdateJson, onNodesChange, initialValues] = props;
+  const { nodeType, nodes, edges, onUpdateJson, onNodesChange, initialValues } =
+    props;
 
   const mappingNodeSubmitData = useMemo(() => {
     return nodeTypesMapping[nodeType].mappingSubmitData

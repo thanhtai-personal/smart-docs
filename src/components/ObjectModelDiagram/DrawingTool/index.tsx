@@ -4,7 +4,7 @@ import {
   edgeTypesMapping,
   nodeTypesMapping,
 } from "app/utils/constants";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 interface DrawingToolProps {
   addNode: any;
@@ -16,6 +16,7 @@ interface DrawingToolProps {
   edges: any;
   setNodes: any;
   setEdges: any;
+  onOpenJsonEditorModal: any;
 }
 
 const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
@@ -29,6 +30,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     edges,
     setNodes,
     setEdges,
+    onOpenJsonEditorModal,
   } = props;
   const [nodeType, setNodeType] = useState(NODE_TYPE.EXPAND_FRAME);
   const [edgeType, setEdgeType] = useState(EDGE_TYPE.DEFAULT);
@@ -81,7 +83,6 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
       });
     setEdges(newEdges);
     setNodes(newNodes);
-
     onUpdateJson({
       nodes: newNodes,
       edges: newEdges,
@@ -94,6 +95,10 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
       edges.find((_edge: any) => _edge.selected),
     [nodes, edges]
   );
+
+  const handleOpenJsonModal = useCallback(() => {
+    onOpenJsonEditorModal && onOpenJsonEditorModal();
+  }, [onOpenJsonEditorModal])
 
   return (
     <div
@@ -178,6 +183,15 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
         </div>
       )}
       <div>
+        <div className="drawing-bar-item">
+          <button
+            title="Edit JSON data"
+            style={{ padding: "8px" }}
+            onClick={handleOpenJsonModal}
+          >
+            <i className="fa-solid fa-gears"></i>
+          </button>
+        </div>
       </div>
     </div>
   );
