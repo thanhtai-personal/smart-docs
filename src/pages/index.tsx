@@ -203,9 +203,15 @@ export default function Home() {
 
   useEffect(() => {
     setLoadingPage(true);
-    setTimeout(() => {
-      setLoadingPage(false);
-    }, 10000);
+    const introduced = localStorage.getItem(moment().format("DD_MM_YYYY"));
+    if (introduced) {
+      setLoadingPage(false)
+    } else {
+      setTimeout(() => {
+        localStorage.setItem(moment().format("DD_MM_YYYY"), "blocked-loading-page");
+        setLoadingPage(false);
+      }, 10000);
+    }
   }, []);
 
   return (
