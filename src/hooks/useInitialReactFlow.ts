@@ -39,7 +39,7 @@ const useInitialReactFlow = (props: any) => {
   };
 
   const edgesWithUpdatedTypes = useMemo(() => {
-    _edges.map((edge: any) => {
+    return _edges.map((edge: any) => {
       if (edge.sourceHandle) {
         const edgeType = nodes.find((node: any) => node?.type === "custom")
           ?.data.selects[edge.sourceHandle];
@@ -66,10 +66,10 @@ const useInitialReactFlow = (props: any) => {
         edges: _edges,
       });
   };
-
+  
   return [
     { onConnect, onInit },
-    { nodes, edges: edgesWithUpdatedTypes },
+    { nodes: _nodes, edges: edgesWithUpdatedTypes },
     {
       setNodes,
       setEdges,
