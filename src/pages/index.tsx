@@ -47,7 +47,7 @@ export default function Home() {
     setLoadingPage(true);
     setTimeout(() => {
       setLoadingPage(false);
-    }, 12000);
+    }, 10000);
   }, []);
 
   return (
