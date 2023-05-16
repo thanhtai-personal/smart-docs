@@ -46,12 +46,14 @@ const useFormInModalLogic = (props: any) => {
   const handleSubmit = useCallback(async () => {
     try {
       const dataSubmit = mappingSubmitData ? mappingSubmitData(values) : values;
-      onSubmit && await onSubmit(dataSubmit);
+      if (onSubmit) {
+        await onSubmit(dataSubmit);
+      }
     } catch (error) {
     } finally {
       handleCloseModal();
     }
-  }, [values, onSubmit]);
+  }, [values, onSubmit, handleCloseModal, mappingSubmitData]);
 
   return [
     {
