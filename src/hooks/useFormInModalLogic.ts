@@ -1,16 +1,16 @@
+import { AppModalInstance } from "app/pages";
 import { useCallback, useEffect, useState } from "react";
 
 const useFormInModalLogic = (props: any) => {
-  const { mappingSubmitData, initialData, onSubmit } = props;
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const { mappingSubmitData, mappingInitialValues, initialData, onSubmit } = props;
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (initialData) {
-      setValues(initialData);
+      setValues(mappingInitialValues ? mappingInitialValues(initialData) : initialData);
     }
-  }, [initialData]);
+  }, [initialData, mappingInitialValues]);
 
   const handleUpdateData = useCallback((name: string, value: any) => {
     if (!name) return;
@@ -33,16 +33,6 @@ const useFormInModalLogic = (props: any) => {
     }));
   }, []);
 
-  const handleCloseModal = useCallback(() => {
-    setValues({});
-    setIsOpenModal(false);
-  }, []);
-
-  const handleOpenModal = useCallback((values?: any) => {
-    setValues(values || {});
-    setIsOpenModal(true);
-  }, [])
-
   const handleSubmit = useCallback(async () => {
     try {
       const dataSubmit = mappingSubmitData ? mappingSubmitData(values) : values;
@@ -51,13 +41,12 @@ const useFormInModalLogic = (props: any) => {
       }
     } catch (error) {
     } finally {
-      handleCloseModal();
+      AppModalInstance.close();
     }
-  }, [values, onSubmit, handleCloseModal, mappingSubmitData]);
+  }, [values, onSubmit, mappingSubmitData]);
 
   return [
     {
-      isOpenModal,
       values,
       errors
     },
@@ -65,8 +54,6 @@ const useFormInModalLogic = (props: any) => {
       handleUpdateData,
       handleUpdateRelatedFields,
       handleUpdateErrors,
-      handleOpenModal,
-      handleCloseModal,
       handleSubmit,
     },
   ];

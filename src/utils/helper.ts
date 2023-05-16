@@ -55,6 +55,18 @@ export const makeNodeTypeMappingItem = ({
     width: 350,
     height: 350,
   }),
+  mappingInitialValues: (node: any) => {
+    return ({
+      id: node.id,
+      label: node.data?.label,
+      className: node.className,
+      targetPosition: node.targetPosition,
+      sourcePosition: node.sourcePosition,
+      selectable: node.selectable,
+      zIndex: node.zIndex,
+      style: node.style,
+    })
+  }
 });
 
 export const makeEdgeMappingItem = ({
@@ -99,6 +111,21 @@ export const makeEdgeMappingItem = ({
     markerStart: values.markerStart,
     markerEnd: values.markerEnd,
   }),
+  mappingInitialValues: (edge: any) => {
+    return ({
+      id: edge.id,
+      source: edge.source,
+      target: edge.target,
+      sourceHandle: edge.sourceHandle,
+      type: edgeType,
+      animated: edge.animated,
+      style: edge.style,
+      className: edge.className,
+      label: edge.label,
+      markerStart: edge.markerStart,
+      markerEnd: edge.markerEnd,
+    })
+  }
 });
 
 export const handleImportFile = (event: any, fileType: string, onLoadFunc: Function) => {

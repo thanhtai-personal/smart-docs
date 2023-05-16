@@ -11,8 +11,6 @@ interface DrawingToolProps {
   editNode: any;
   addEdge: any;
   editEdge: any;
-  openJson: any;
-  onOpenJson: any;
   onUpdateJson: any;
   nodes: any;
   edges: any;
@@ -26,8 +24,6 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     editNode,
     addEdge,
     editEdge,
-    openJson,
-    onOpenJson,
     onUpdateJson,
     nodes,
     edges,
@@ -182,19 +178,6 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
         </div>
       )}
       <div>
-        {openJson && (
-          <button
-            style={{
-              padding: "8px",
-              background: "steelblue",
-              borderRadius: "4px",
-              color: "#fff",
-            }}
-            onClick={() => onOpenJson && onOpenJson(false)}
-          >
-            <i className="fa-sharp fa-solid fa-xmark"></i>
-          </button>
-        )}
       </div>
     </div>
   );

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-const useModalHotkey = () => {
-  const [jsonInputModalOpen, setJsonInputModalOpen] = useState(false);
+const useModalHotkey = (state: any, setState: any) => {
 
   const handleKeyDown = (event: any) => {
     if (event.ctrlKey && event.key === "o") {
       event.preventDefault();
-      setJsonInputModalOpen((prev) => !prev);
+      setState((prev: any) => ({
+        ...prev,
+        open: !prev.open
+      }))
     }
   };
 
@@ -16,8 +18,6 @@ const useModalHotkey = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
-  return [jsonInputModalOpen, setJsonInputModalOpen];
 };
 
 export default useModalHotkey;

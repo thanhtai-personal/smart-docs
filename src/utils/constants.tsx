@@ -147,6 +147,18 @@ export const nodeTypesMapping: any = {
       width: 267,
       height: 159,
     }),
+    mappingInitialValues: (node: any) => {
+      return ({
+        id: node.id,
+        label: node.data?.label,
+        content: node.data?.content || "",
+        targetPosition: node.targetPosition,
+        sourcePosition: node.sourcePosition,
+        selectable: node.selectable,
+        zIndex: node.zIndex,
+        style: node.style,
+      })
+    }
   },
   mediaCard: {
     component: MediaCardNode,
@@ -204,6 +216,18 @@ export const nodeTypesMapping: any = {
       height: 350,
     }),
   },
+  mappingInitialValues: (node: any) => {
+    return ({
+      id: node.id,
+      label: node.data?.label,
+      mdContent: node.data?.mdContent || "",
+      targetPosition: node.targetPosition,
+      sourcePosition: node.sourcePosition,
+      selectable: node.selectable,
+      zIndex: node.zIndex,
+      style: node.style,
+    })
+  }
 };
 
 export const edgeTypesMapping: any = {
