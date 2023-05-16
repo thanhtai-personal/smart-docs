@@ -42,10 +42,8 @@ const Form = (props: FormProps) => {
   const handleSubmit = useCallback(async () => {
     setIsSbumitting(true);
     try {
-      //put validate form here (before submit)
       await (onSubmit && onSubmit());
     } catch (error) {
-      console.log("error", error);
     } finally {
       setIsSbumitting(false);
     }
@@ -89,50 +87,47 @@ const Form = (props: FormProps) => {
       >
         <h1 style={{ fontWeight: 700, textTransform: "uppercase" }}>{title}</h1>
       </div>
-      <form>
-        <div
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "16px",
+        }}
+      >
+        {fields.map((item) => {
+          return (
+            <Field
+              key={`item-${item.priority}-${item.id}`}
+              item={item}
+              getOptions={passedDataGetOptions}
+              setFormValue={handleUpdateFormValue}
+              errors={errors}
+              values={values}
+              validate={validate}
+              setErrors={handleError}
+            />
+          );
+        })}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          width: "100%",
+          padding: "8px 0",
+        }}
+      >
+        <button
+          disabled={isSubmitting}
           style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "16px",
+            background: "steelblue",
+            padding: "8px",
           }}
+          onClick={handleSubmit}
         >
-          {fields.map((item) => {
-            return (
-              <Field
-                key={`item-${item.priority}-${item.id}`}
-                item={item}
-                getOptions={passedDataGetOptions}
-                setFormValue={handleUpdateFormValue}
-                errors={errors}
-                values={values}
-                validate={validate}
-                setErrors={handleError}
-              />
-            );
-          })}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            padding: "8px 0",
-          }}
-        >
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            style={{
-              background: "steelblue",
-              padding: "8px",
-            }}
-            onClick={handleSubmit}
-          >
-            Save
-          </button>
-        </div>
-      </form>
+          Save
+        </button>
+      </div>
     </div>
   );
 };

@@ -34,8 +34,8 @@ const useFormInModalLogic = (props: any) => {
   }, []);
 
   const handleCloseModal = useCallback(() => {
-    setIsOpenModal(false);
     setValues({});
+    setIsOpenModal(false);
   }, []);
 
   const handleOpenModal = useCallback((values?: any) => {
