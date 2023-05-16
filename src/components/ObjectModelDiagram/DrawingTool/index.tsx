@@ -5,6 +5,7 @@ import {
   nodeTypesMapping,
 } from "app/utils/constants";
 import React, { useCallback, useMemo, useState } from "react";
+import useActionHotkey from "app/hooks/useActionHotkey"
 
 interface DrawingToolProps {
   addNode: any;
@@ -41,13 +42,6 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
 
   const handleAddEdge = () => {
     addEdge && addEdge(edgeType);
-  };
-
-  const handleOpenEdit = () => {
-    const selectedNode = (nodes || []).find((_node: any) => _node.selected);
-    const selectedEdge = (edges || []).find((_edge: any) => _edge.selected);
-    selectedNode && editNode && editNode(selectedNode);
-    selectedEdge && editEdge && editEdge(selectedEdge);
   };
 
   const handleChangeNodeType = (e: any) => {
@@ -89,12 +83,24 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     });
   };
 
+  const handleOpenEdit = () => {
+    const selectedNode = (nodes || []).find((_node: any) => _node.selected);
+    const selectedEdge = (edges || []).find((_edge: any) => _edge.selected);
+    selectedNode && editNode && editNode(selectedNode);
+    selectedEdge && editEdge && editEdge(selectedEdge);
+  };
+
   const openEditTool = useMemo(
     () =>
       nodes.find((_node: any) => _node.selected) ||
       edges.find((_edge: any) => _edge.selected),
     [nodes, edges]
   );
+
+  useActionHotkey(openEditTool, {
+    onDelete: handleDeleteSeleted,
+    onEdit: handleOpenEdit
+  })
 
   const handleOpenJsonModal = useCallback(() => {
     onOpenJsonEditorModal && onOpenJsonEditorModal();
@@ -165,21 +171,8 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
           style={{
             display: "flex",
             alignItems: "center",
-            minWidth: 300,
           }}
         >
-          <i
-            title="delete"
-            className="fa-sharp fa-solid fa-trash fa-xl button"
-            style={{ color: "rgba(225,20,0, 1)" }}
-            onClick={handleDeleteSeleted}
-          ></i>
-          <i
-            title="edit"
-            className="fa-solid fa-pen-to-square fa-xl button"
-            style={{ color: "rgba(6,105,234, 1)", marginLeft: "16px" }}
-            onClick={handleOpenEdit}
-          ></i>
         </div>
       )}
       <div>
