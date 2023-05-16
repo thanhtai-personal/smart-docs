@@ -60,6 +60,7 @@ export const makeNodeTypeMappingItem = ({
       id: node.id,
       label: node.data?.label,
       className: node.className,
+      parentNode: node.parentNode || "",
       targetPosition: node.targetPosition,
       sourcePosition: node.sourcePosition,
       selectable: node.selectable,

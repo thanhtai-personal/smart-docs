@@ -4,11 +4,8 @@ const useLocalStorageData = (key: string, defaultData?: any) => {
   const [jsonData, setJsonData] = useState("");
 
   useEffect(() => {
-    console.log("key", key)
     if (key) {
       const storageData = localStorage.getItem(key);
-    console.log("storageData", storageData)
-    console.log("defaultData", defaultData)
     if (storageData) {
       setJsonData(storageData);
     } else if (defaultData) {

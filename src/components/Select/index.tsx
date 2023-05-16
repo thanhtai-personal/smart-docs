@@ -1,9 +1,18 @@
+import { useEffect, useRef } from "react";
+
 const Select = (props: any) => {
   const { onChange, defaultValue, getOptions, label, name } = props;
+  const inputRef: any = useRef();
 
   const handleChange = (e: any) => {
     onChange && onChange(e.target.value);
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = defaultValue || ""
+    }
+  }, [defaultValue])
 
   return (
     <div className="select-wrapper">
@@ -13,6 +22,7 @@ const Select = (props: any) => {
         className="node-selection"
         placeholder="Select parent node"
         onChange={handleChange}
+        ref={inputRef}
       >
         <option value={""}>None</option>
         {getOptions &&

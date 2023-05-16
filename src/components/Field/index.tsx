@@ -43,7 +43,6 @@ const Field = (props: FieldProps) => {
   };
 
   if (!item.name) return <></>;
-
   return (
     <div className="field">
       {item.render({
