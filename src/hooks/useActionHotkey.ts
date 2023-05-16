@@ -5,9 +5,8 @@ const useModalHotkey = (selectedItem: any, events: any) => {
 
   const handleKeyDown = useCallback(
     (event: any) => {
-        console.log("event.key", event.key)
       if (!selectedItem) return;
-      if (event.ctrlKey && event.key === "Delete") {
+      if (event.key === "Delete") {
         onDelete(selectedItem)
       }
       if (event.key === "Enter") {
