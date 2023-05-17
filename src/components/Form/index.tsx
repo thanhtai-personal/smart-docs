@@ -74,6 +74,8 @@ const Form = (props: FormProps) => {
         maxWidth: "75vw",
         padding: "8px",
         position: "relative",
+        maxHeight: "80vh",
+        overflow: "auto",
       }}
     >
       <div

@@ -2,6 +2,8 @@ import ExpandFrameNode from "app/components/ObjectModelDiagram/CustomNode/Expand
 import MediaCardNode from "app/components/ObjectModelDiagram/CustomNode/MediaCardNode";
 import ExpandFrameNodeCreateModel from "app/components/ObjectModelDiagram/CustomNode/ExpandFrameNode/models/create";
 import MediaCardNodeCreateModel from "app/components/ObjectModelDiagram/CustomNode/MediaCardNode/models/create";
+import WithMouseEventNodeModel from "app/components/ObjectModelDiagram/CustomNode/WithMouseEventNode/models/create";
+
 import { NamedColorspace } from "@textea/json-viewer";
 import InputModel from "app/components/ObjectModelDiagram/DefaultNode/Input/models/create";
 import OutputModel from "app/components/ObjectModelDiagram/DefaultNode/Output/models/create";
@@ -15,6 +17,7 @@ import {
   makeNodeTypeMappingItem,
   uppercaseFirstLetter,
 } from "./helper";
+import WithMouseEventNode from "app/components/ObjectModelDiagram/CustomNode/WithMouseEventNode";
 
 //enum
 export enum NODE_TYPE {
@@ -23,6 +26,7 @@ export enum NODE_TYPE {
   OUTPUT = "output",
   EXPAND_FRAME = "expandFrame",
   MEDIA_CARD = "mediaCard",
+  WITH_MOUSE_EVENT = "withMouseEvent",
 }
 
 export enum EDGE_TYPE {
@@ -43,6 +47,7 @@ export const POSITION: any = {
 export const nodeTypes: any = {
   expandFrame: ExpandFrameNode,
   mediaCard: MediaCardNode,
+  withMouseEvent: WithMouseEventNode,
 };
 
 export const edgeTypes: any = {};
@@ -108,23 +113,11 @@ export const nodeTypesMapping: any = {
           label: n.name || n.id,
         })),
     },
-    getInitialValues: (nodeData: any) => ({
-      id: nodeData.id || "",
-      className: nodeData.className || "",
-      content: nodeData.data?.content || "",
-      label: nodeData.data?.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    }),
     validate: (values: any) => !!values.id,
     model: ExpandFrameNodeCreateModel,
     mappingSubmitData: (values: any) => ({
       id: values.id,
-      type: "expandFrame",
+      type: NODE_TYPE.EXPAND_FRAME,
       data: {
         label: values.label,
         content: values.content,
@@ -149,7 +142,7 @@ export const nodeTypesMapping: any = {
       height: 159,
     }),
     mappingInitialValues: (node: any) => {
-      return ({
+      return {
         id: node.id,
         label: node.data?.label,
         content: node.data?.content || "",
@@ -159,8 +152,8 @@ export const nodeTypesMapping: any = {
         selectable: node.selectable,
         zIndex: node.zIndex,
         style: node.style,
-      })
-    }
+      };
+    },
   },
   mediaCard: {
     component: MediaCardNode,
@@ -174,24 +167,11 @@ export const nodeTypesMapping: any = {
           label: n.name || n.id,
         })),
     },
-    getInitialValues: (nodeData: any) => {
-      return {
-        id: nodeData.id || "",
-        label: nodeData.data?.label || "",
-        mdContent: nodeData.data?.mdContent || "",
-        targetPosition: nodeData.targetPosition || POSITION.TOP,
-        sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-        parentNode: nodeData.parentNode || "",
-        selectable: nodeData.selectable || true,
-        zIndex: nodeData.zIndex || 0,
-        style: nodeData.style || "",
-      };
-    },
     validate: (values: any) => !!values.id,
     model: MediaCardNodeCreateModel,
     mappingSubmitData: (values: any) => ({
       id: values.id,
-      type: "mediaCard",
+      type: NODE_TYPE.MEDIA_CARD,
       data: {
         label: values.label,
         content: "",
@@ -219,7 +199,7 @@ export const nodeTypesMapping: any = {
       height: 350,
     }),
     mappingInitialValues: (node: any) => {
-      return ({
+      return {
         id: node.id,
         label: node.data?.label,
         mdContent: node.data?.mdContent || "",
@@ -229,9 +209,71 @@ export const nodeTypesMapping: any = {
         selectable: node.selectable,
         zIndex: node.zIndex,
         style: node.style,
-      })
-    }
-  }
+      };
+    },
+  },
+  withMouseEvent: {
+    component: WithMouseEventNode,
+    name: "With mouse event",
+    createTitle: "With mouse event node",
+    getOptions: {
+      parentNode: (dataSelected: any) => () =>
+        (dataSelected.nodes || []).map((n: any) => ({
+          key: n.id,
+          value: n.id,
+          label: n.name || n.id,
+        })),
+    },
+    validate: (values: any) => !!values.id,
+    model: WithMouseEventNodeModel,
+    mappingSubmitData: (values: any) => ({
+      id: values.id,
+      type: NODE_TYPE.WITH_MOUSE_EVENT,
+      data: {
+        label: values.label,
+        content: values.content,
+        textStyle: values.textStyle || "",
+        width: values.width || "",
+        height: values.height || "",
+        background: values.background || "",
+      },
+      parentNode: values.parentNode || "",
+      targetPosition: values.targetPosition,
+      sourcePosition: values.sourcePosition,
+      selectable: values.selectable,
+      zIndex: values.zIndex,
+      style: values.style,
+      position: {
+        x: 40,
+        y: 40,
+      },
+      selected: false,
+      positionAbsolute: {
+        x: 40,
+        y: 40,
+      },
+      dragging: false,
+      width: 350,
+      height: 350,
+    }),
+    mappingInitialValues: (node: any) => {
+      return {
+        id: node.id,
+        label: node.data?.label,
+        content: node.data?.content || "",
+        textStyle: node.data?.textStyle || "",
+        width: node.data?.width || "",
+        height: node.data?.height || "",
+        background: node.data?.background || "",
+        parentNode: node.parentNode || "",
+        targetPosition: node.targetPosition,
+        sourcePosition: node.sourcePosition,
+        selectable: node.selectable,
+        zIndex: node.zIndex,
+        style: node.style,
+      };
+    },
+  },
 };
 
 export const edgeTypesMapping: any = {

@@ -10,25 +10,12 @@ export const makeNodeTypeMappingItem = ({
   model,
   type,
   getOptions,
-  getInitialValues,
 }: any) => ({
   name: name,
   createTitle: createTitle,
   model: model,
   getOptions,
   validate: (values: any) => !!values.id,
-  getInitialValues:
-    getInitialValues ||
-    ((nodeData: any) => ({
-      id: nodeData.id || "",
-      label: nodeData.label || "",
-      targetPosition: nodeData.targetPosition || POSITION.TOP,
-      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
-      parentNode: nodeData.parentNode || "",
-      selectable: nodeData.selectable || true,
-      zIndex: nodeData.zIndex || 0,
-      style: nodeData.style || "",
-    })),
   mappingSubmitData: (values: any) => ({
     id: values.id,
     type: type,
@@ -55,19 +42,18 @@ export const makeNodeTypeMappingItem = ({
     width: 350,
     height: 350,
   }),
-  mappingInitialValues: (node: any) => {
-    return ({
-      id: node.id,
-      label: node.data?.label,
-      className: node.className,
-      parentNode: node.parentNode || "",
-      targetPosition: node.targetPosition,
-      sourcePosition: node.sourcePosition,
-      selectable: node.selectable,
-      zIndex: node.zIndex,
-      style: node.style,
-    })
-  }
+  mappingInitialValues: (nodeData: any) => {
+    return {
+      id: nodeData.id || "",
+      label: nodeData.label || "",
+      targetPosition: nodeData.targetPosition || POSITION.TOP,
+      sourcePosition: nodeData.sourcePosition || POSITION.BOTTOM,
+      parentNode: nodeData.parentNode || "",
+      selectable: nodeData.selectable || true,
+      zIndex: nodeData.zIndex || 0,
+      style: nodeData.style || "",
+    };
+  },
 });
 
 export const makeEdgeMappingItem = ({
@@ -82,23 +68,6 @@ export const makeEdgeMappingItem = ({
   model: model,
   validate: (values: any) => !!values.id,
   getOptions,
-  getInitialValues: (edgeData: any) => ({
-    id: edgeData.id || "",
-    source: edgeData.source || "",
-    target: edgeData.target || "",
-    sourceHandle: edgeData.sourceHandle || "",
-    type: EDGE_TYPE.DEFAULT,
-    markerStart: {
-      type: edgeData.markerStart || MarkerType.Arrow,
-    },
-    markerEnd: {
-      type: edgeData.markerEnd || MarkerType.Arrow,
-    },
-    animated: edgeData.animated || false,
-    style: edgeData.style || "",
-    className: edgeData.className || "",
-    label: edgeData.label || "",
-  }),
   mappingSubmitData: (values: any) => ({
     id: values.id,
     source: values.source,
@@ -112,31 +81,39 @@ export const makeEdgeMappingItem = ({
     markerStart: values.markerStart,
     markerEnd: values.markerEnd,
   }),
-  mappingInitialValues: (edge: any) => {
-    return ({
-      id: edge.id,
-      source: edge.source,
-      target: edge.target,
-      sourceHandle: edge.sourceHandle,
-      type: edgeType,
-      animated: edge.animated,
-      style: edge.style,
-      className: edge.className,
-      label: edge.label,
-      markerStart: edge.markerStart,
-      markerEnd: edge.markerEnd,
-    })
-  }
+  mappingInitialValues: (edgeData: any) => {
+    return {
+      id: edgeData.id || "",
+      source: edgeData.source || "",
+      target: edgeData.target || "",
+      sourceHandle: edgeData.sourceHandle || "",
+      type: EDGE_TYPE.DEFAULT,
+      markerStart: {
+        type: edgeData.markerStart || MarkerType.Arrow,
+      },
+      markerEnd: {
+        type: edgeData.markerEnd || MarkerType.Arrow,
+      },
+      animated: edgeData.animated || false,
+      style: edgeData.style || "",
+      className: edgeData.className || "",
+      label: edgeData.label || "",
+    };
+  },
 });
 
-export const handleImportFile = (event: any, fileType: string, onLoadFunc: Function) => {
+export const handleImportFile = (
+  event: any,
+  fileType: string,
+  onLoadFunc: Function
+) => {
   const file = event.target.files[0];
   if (file && file.type === fileType) {
     const reader: any = new FileReader();
     reader.readAsText(file);
     reader.onload = onLoadFunc(reader);
   }
-}
+};
 
 export const handleDownloadFile = (fileName: string, fileData: any) => {
   let element = document.createElement("a");

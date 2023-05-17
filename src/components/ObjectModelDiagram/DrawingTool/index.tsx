@@ -5,7 +5,7 @@ import {
   nodeTypesMapping,
 } from "app/utils/constants";
 import React, { useCallback, useMemo, useState } from "react";
-import useActionHotkey from "app/hooks/useActionHotkey"
+import useActionHotkey from "app/hooks/useActionHotkey";
 
 interface DrawingToolProps {
   addNode: any;
@@ -89,7 +89,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
     selectedNode && editNode && editNode(selectedNode);
     selectedEdge && editEdge && editEdge(selectedEdge);
   };
-  
+
   const selectedItem = useMemo(
     () =>
       nodes.find((_node: any) => _node.selected) ||
@@ -99,12 +99,12 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
 
   useActionHotkey(selectedItem, {
     onDelete: handleDeleteSeleted,
-    onEdit: handleOpenEdit
-  })
+    onEdit: handleOpenEdit,
+  });
 
   const handleOpenJsonModal = useCallback(() => {
     onOpenJsonEditorModal && onOpenJsonEditorModal();
-  }, [onOpenJsonEditorModal])
+  }, [onOpenJsonEditorModal]);
 
   return (
     <div
@@ -172,8 +172,7 @@ const DrawingTool: React.FC<DrawingToolProps> = (props: DrawingToolProps) => {
             display: "flex",
             alignItems: "center",
           }}
-        >
-        </div>
+        ></div>
       )}
       <div>
         <div className="drawing-bar-item">

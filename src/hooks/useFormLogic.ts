@@ -1,14 +1,22 @@
 import { AppModalInstance } from "app/pages";
 import { useCallback, useEffect, useState } from "react";
 
-const useFormInModalLogic = (props: any) => {
-  const { mappingSubmitData, mappingInitialValues, initialData, onSubmit } = props;
+const useFormLogic = (props: any) => {
+  const {
+    mappingSubmitData,
+    mappingInitialValues,
+    initialData,
+    onSubmit,
+    isEdit,
+  } = props;
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (initialData) {
-      setValues(mappingInitialValues ? mappingInitialValues(initialData) : initialData);
+      setValues(
+        mappingInitialValues ? mappingInitialValues(initialData) : initialData
+      );
     }
   }, [initialData, mappingInitialValues]);
 
@@ -16,12 +24,12 @@ const useFormInModalLogic = (props: any) => {
     if (!name) return;
     setValues((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   }, []);
 
   const handleUpdateRelatedFields = useCallback((item: any, newValue: any) => {
-    if (!item.updateRelatedFields) return
+    if (!item.updateRelatedFields) return;
     item.updateRelatedFields(newValue, errors);
   }, []);
 
@@ -29,7 +37,7 @@ const useFormInModalLogic = (props: any) => {
     if (!name) return;
     setErrors((prev) => ({
       ...prev,
-      [name]: error
+      [name]: error,
     }));
   }, []);
 
@@ -37,18 +45,18 @@ const useFormInModalLogic = (props: any) => {
     try {
       const dataSubmit = mappingSubmitData ? mappingSubmitData(values) : values;
       if (onSubmit) {
-        await onSubmit(dataSubmit);
+        await onSubmit(dataSubmit, isEdit);
       }
     } catch (error) {
     } finally {
       AppModalInstance.close();
     }
-  }, [values, onSubmit, mappingSubmitData]);
+  }, [values, onSubmit, mappingSubmitData, isEdit]);
 
   return [
     {
       values,
-      errors
+      errors,
     },
     {
       handleUpdateData,
@@ -59,4 +67,4 @@ const useFormInModalLogic = (props: any) => {
   ];
 };
 
-export default useFormInModalLogic;
+export default useFormLogic;

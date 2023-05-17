@@ -1,17 +1,14 @@
 import React, { forwardRef, useMemo, useState } from "react";
 import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
-import {
-  nodeTypes,
-  edgeTypes,
-} from "app/utils/constants";
+import { nodeTypes, edgeTypes } from "app/utils/constants";
 import DrawingTool from "./DrawingTool";
 import { NODE_TYPE } from "app/utils/constants";
 import { EDGE_TYPE } from "app/utils/constants";
 import useInitialReactFlow from "app/hooks/useInitialReactFlow";
 import { AppModalInstance } from "app/pages";
-import NodeForm from "app/components/ObjectModelDiagram/Forms/Node"
-import EdgeForm from "app/components/ObjectModelDiagram/Forms/Edge"
+import NodeForm from "app/components/ObjectModelDiagram/Forms/Node";
+import EdgeForm from "app/components/ObjectModelDiagram/Forms/Edge";
 
 const minimapStyle = {
   height: 120,
@@ -43,37 +40,57 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     setNodeType(type);
     AppModalInstance.replaceChildren(NodeForm);
     AppModalInstance.updateChildrenProps({
-      nodeType, nodes, edges, onUpdateJson, onNodesChange
+      nodeType,
+      nodes,
+      edges,
+      onUpdateJson,
+      onNodesChange,
     });
-    AppModalInstance.open()
-  }
+    AppModalInstance.open();
+  };
 
   const handleOpenEditNodeModal = (node: any) => {
     setNodeType(node.type || NODE_TYPE.DEFAULT);
     AppModalInstance.replaceChildren(NodeForm);
     AppModalInstance.updateChildrenProps({
-      nodeType, nodes, edges, onUpdateJson, onNodesChange, initialValues: node
+      nodeType,
+      nodes,
+      edges,
+      onUpdateJson,
+      onNodesChange,
+      initialValues: node,
+      isEdit: true,
     });
-    AppModalInstance.open()
-  }
+    AppModalInstance.open();
+  };
 
   const handleOpenCreateEdgeModal = (type: string) => {
     setEdgeType(type);
     AppModalInstance.replaceChildren(EdgeForm);
     AppModalInstance.updateChildrenProps({
-      edgeType, nodes, edges, onUpdateJson, onEdgesChange
+      edgeType,
+      nodes,
+      edges,
+      onUpdateJson,
+      onEdgesChange,
     });
-    AppModalInstance.open()
-  }
+    AppModalInstance.open();
+  };
 
   const handleOpenEditEdgeModal = (edge: any) => {
     setEdgeType(edge.type || EDGE_TYPE.DEFAULT);
     AppModalInstance.replaceChildren(EdgeForm);
     AppModalInstance.updateChildrenProps({
-      edgeType, nodes, edges, onUpdateJson, onEdgesChange, initialValues: edge
+      edgeType,
+      nodes,
+      edges,
+      onUpdateJson,
+      onEdgesChange,
+      initialValues: edge,
+      isEdit: true,
     });
-    AppModalInstance.open()
-  }
+    AppModalInstance.open();
+  };
 
   return (
     <>
