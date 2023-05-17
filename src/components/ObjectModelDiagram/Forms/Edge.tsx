@@ -1,11 +1,18 @@
 import Form from "app/components/Form";
-import useFormInModalLogic from "app/hooks/useFormInModalLogic";
+import useFormLogic from "app/hooks/useFormLogic";
 import { edgeTypesMapping } from "app/utils/constants";
 import { memo, useMemo } from "react";
 
 const EdgeForm = (props: any) => {
-  const { edgeType, nodes, edges, onUpdateJson, onEdgesChange, initialValues } =
-    props;
+  const {
+    edgeType,
+    nodes,
+    edges,
+    onUpdateJson,
+    onEdgesChange,
+    initialValues,
+    isEdit,
+  } = props;
 
   const mappingEdgeSubmitData = useMemo(() => {
     return edgeTypesMapping[edgeType].mappingSubmitData
@@ -13,7 +20,7 @@ const EdgeForm = (props: any) => {
       : (values: any) => values;
   }, [edgeType]);
 
-  const [edgeFormData, edgeFormEvents] = useFormInModalLogic({
+  const [edgeFormData, edgeFormEvents] = useFormLogic({
     formData: {
       nodes,
       edges,
@@ -22,16 +29,20 @@ const EdgeForm = (props: any) => {
     onUpdateFormData: (changes: Array<any>) => {
       onEdgesChange && onEdgesChange(changes);
     },
-    onSubmit: async (newEdge: any) => {
+    onSubmit: async (newEdge: any, isEdit = false as Boolean) => {
       if (onUpdateJson) {
+        const newEdges = (edges || []).filter(
+          (n: any) => !(isEdit && n.id === newEdge.id)
+        );
         onUpdateJson({
           nodes: nodes || [],
-          edges: [...(edges || []), newEdge],
+          edges: [...newEdges, newEdge],
         });
       }
     },
     mappingSubmitData: mappingEdgeSubmitData,
-    mappingInitialValues: edgeTypesMapping[edgeType].mappingInitialValues
+    mappingInitialValues: edgeTypesMapping[edgeType].mappingInitialValues,
+    isEdit,
   });
 
   return (

@@ -1,13 +1,13 @@
 import { memo } from "react";
 
 interface FieldProps {
-  item: any,
-  values: any,
-  getOptions?: any,
-  setFormValue?: any,
-  errors?: any,
-  validate?: any,
-  setErrors?: any,
+  item: any;
+  values: any;
+  getOptions?: any;
+  setFormValue?: any;
+  errors?: any;
+  validate?: any;
+  setErrors?: any;
 }
 
 const Field = (props: FieldProps) => {
@@ -35,7 +35,7 @@ const Field = (props: FieldProps) => {
       }
       setFormValue && setFormValue(item, newValue);
     } catch (error: any) {
-      console.log("error", error)
+      console.log("error", error);
       if (error && error.message === "validated error") {
         setErrors && setErrors(item.name, { validated: false, touched: true });
       }

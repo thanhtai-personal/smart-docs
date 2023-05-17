@@ -1,11 +1,18 @@
 import Form from "app/components/Form";
-import useFormInModalLogic from "app/hooks/useFormInModalLogic";
+import useFormLogic from "app/hooks/useFormLogic";
 import { nodeTypesMapping } from "app/utils/constants";
 import { memo, useMemo } from "react";
 
 const NodeForm = (props: any) => {
-  const { nodeType, nodes, edges, onUpdateJson, onNodesChange, initialValues } =
-    props;
+  const {
+    nodeType,
+    nodes,
+    edges,
+    onUpdateJson,
+    onNodesChange,
+    initialValues,
+    isEdit,
+  } = props;
 
   const mappingNodeSubmitData = useMemo(() => {
     return nodeTypesMapping[nodeType].mappingSubmitData
@@ -13,7 +20,7 @@ const NodeForm = (props: any) => {
       : (values: any) => values;
   }, [nodeType]);
 
-  const [nodeFormData, nodeFormEvents] = useFormInModalLogic({
+  const [nodeFormData, nodeFormEvents] = useFormLogic({
     formData: {
       nodes,
       edges,
@@ -26,14 +33,18 @@ const NodeForm = (props: any) => {
         edges,
       });
     },
-    onSubmit: async (newNode: any) => {
+    onSubmit: async (newNode: any, isEdit = false as Boolean) => {
+      const newNodes = (nodes || []).filter(
+        (n: any) => !(isEdit && n.id === newNode.id)
+      );
       onUpdateJson({
         edges: edges || [],
-        nodes: [...(nodes || []), newNode],
+        nodes: [...newNodes, newNode],
       });
     },
     mappingSubmitData: mappingNodeSubmitData,
-    mappingInitialValues: nodeTypesMapping[nodeType].mappingInitialValues
+    mappingInitialValues: nodeTypesMapping[nodeType].mappingInitialValues,
+    isEdit,
   });
 
   return (
