@@ -6,12 +6,12 @@ import { memo, useRef } from "react";
 import moment from "moment";
 
 const JSONEditorModal = (props: any) => {
-  const { jsonData, objectData, updateJsonData } = props;
+  const { jsonData, objectData, updateJsonData, error } = props;
 
   const fileNameRef: any = useRef();
 
   const handleJsonChange = (event: any) => {
-    updateJsonData(event.target.value || "{}");
+    updateJsonData(event.target.value);
   };
 
   const handleExportJson = () => {
@@ -38,12 +38,13 @@ const JSONEditorModal = (props: any) => {
       }}
     >
       <textarea
-        value={jsonData || "[]"}
+        defaultValue={jsonData}
         rows={15}
         style={{
           width: "100%",
           borderRadius: "8px",
           border: "solid 1px rgba(0,0,0, 0.125)",
+          borderColor: error ? "red" : "rgba(0,0,0, 0.125)",
           padding: "8px",
         }}
         onChange={handleJsonChange}

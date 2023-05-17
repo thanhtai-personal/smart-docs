@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const useLocalStorageData = (key: string, defaultData?: any) => {
   const [jsonData, setJsonData] = useState("");
+  const [error, setErrors] = useState(null as any);
 
   useEffect(() => {
     if (key) {
@@ -16,13 +17,19 @@ const useLocalStorageData = (key: string, defaultData?: any) => {
 
   const handleUpdateJson = useCallback(
     (data: string) => {
-      setJsonData(data);
-      localStorage.setItem(key, data);
+      try {
+        const isValid = JSON.parse(data);
+        setErrors(null);
+        setJsonData(data);
+        localStorage.setItem(key, data);
+      } catch (error) {
+        setErrors(error)
+      }
     },
     [key]
   );
 
-  return [jsonData, jsonData ? JSON.parse(jsonData) : {}, handleUpdateJson];
+  return [jsonData, jsonData ? JSON.parse(jsonData) : {}, handleUpdateJson, error];
 };
 
 export default useLocalStorageData;

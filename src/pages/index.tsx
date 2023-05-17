@@ -8,7 +8,7 @@ import LoadingPage from "app/components/LoadingPage";
 import JsonEditorModal from "app/components/JsonEditor/modal";
 
 export default function Home() {
-  const [jsonData, objectData, updateJsonData] =
+  const [jsonData, objectData, updateJsonData, error] =
     useLocalStorageData("document-data");
   const [loadingPage, setLoadingPage] = useState(false);
 
@@ -21,7 +21,7 @@ export default function Home() {
   const handleOpenJsonEditorModal = useCallback(() => {
     AppModalInstance.replaceChildren(JsonEditorModal);
     AppModalInstance.updateChildrenProps({
-      jsonData, objectData, updateJsonData
+      jsonData, objectData, updateJsonData, error
     })
     AppModalInstance.open();
   }, [jsonData, objectData, updateJsonData])
