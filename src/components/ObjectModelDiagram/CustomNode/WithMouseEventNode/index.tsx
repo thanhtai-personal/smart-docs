@@ -29,11 +29,20 @@ function WithMouseEventNode(props: any) {
         }}
       >
         <div
-          id={`${id}-label`}
-          className="custom-node__header"
-          onClick={() => setOpen((prev) => !prev)}
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          {data.label}
+          <div
+            id={`${id}-label`}
+            className="custom-node__header"
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            {data.label}
+          </div>
         </div>
         {data.content && (
           <div
