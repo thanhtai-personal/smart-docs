@@ -40,7 +40,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     setNodeType(type);
     AppModalInstance.replaceChildren(NodeForm);
     AppModalInstance.updateChildrenProps({
-      nodeType,
+      nodeType: type,
       nodes,
       edges,
       onUpdateJson,
@@ -53,7 +53,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     setNodeType(node.type || NODE_TYPE.DEFAULT);
     AppModalInstance.replaceChildren(NodeForm);
     AppModalInstance.updateChildrenProps({
-      nodeType,
+      nodeType: node.type,
       nodes,
       edges,
       onUpdateJson,
@@ -68,7 +68,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     setEdgeType(type);
     AppModalInstance.replaceChildren(EdgeForm);
     AppModalInstance.updateChildrenProps({
-      edgeType,
+      edgeType: type,
       nodes,
       edges,
       onUpdateJson,
@@ -81,7 +81,7 @@ const ObjectModelDiagram = forwardRef((props: any, ref: any) => {
     setEdgeType(edge.type || EDGE_TYPE.DEFAULT);
     AppModalInstance.replaceChildren(EdgeForm);
     AppModalInstance.updateChildrenProps({
-      edgeType,
+      edgeType: edge.type,
       nodes,
       edges,
       onUpdateJson,

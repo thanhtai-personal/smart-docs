@@ -13,7 +13,7 @@ const NodeForm = (props: any) => {
     initialValues,
     isEdit,
   } = props;
-
+  
   const mappingNodeSubmitData = useMemo(() => {
     return nodeTypesMapping[nodeType].mappingSubmitData
       ? nodeTypesMapping[nodeType].mappingSubmitData
