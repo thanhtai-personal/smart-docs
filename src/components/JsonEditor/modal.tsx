@@ -29,6 +29,11 @@ const JSONEditorModal = (props: any) => {
     });
   };
 
+  const handleCopyContentText = (event: any) => {
+    navigator.clipboard.writeText(event.target.value);
+    alert("JSON copied!!");
+  }
+
   return (
     <div
       style={{
@@ -39,6 +44,7 @@ const JSONEditorModal = (props: any) => {
     >
       <textarea
         defaultValue={jsonData}
+        readOnly
         rows={15}
         style={{
           width: "100%",
@@ -46,8 +52,10 @@ const JSONEditorModal = (props: any) => {
           border: "solid 1px rgba(0,0,0, 0.125)",
           borderColor: error ? "red" : "rgba(0,0,0, 0.125)",
           padding: "8px",
+          background: "rgba(220,220,220, 1)"
         }}
-        onChange={handleJsonChange}
+        onClick={handleCopyContentText}
+        // onChange={handleJsonChange}
       />
       <div
         style={{
