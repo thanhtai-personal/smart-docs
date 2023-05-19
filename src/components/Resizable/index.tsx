@@ -16,7 +16,7 @@ interface ResizableProps {
 }
 
 const Resizable = (props: ResizableProps) => {
-  return <ResizableBox {...props}>{props.children}</ResizableBox>;
+  return props.children //<ResizableBox {...props}>{props.children}</ResizableBox>;
 };
 
 export default Resizable;
